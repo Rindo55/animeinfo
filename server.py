@@ -19,9 +19,9 @@ def handle_message(client, message):
       anime_info += f"Score: {anime['score']}\n"
       anime_info += f"Synopsis: {anime['synopsis']}\n"
 
-      client.send_message(message.chat.id, anime_info)  # Send the anime information as a reply
+      app.send_message(message.chat.id, anime_info)  # Send the anime information as a reply
    except IndexError:
-      client.send_message(message.chat.id, "Anime not found.")  # Send a message if the anime is not found
+      app.send_message(message.chat.id, "Anime not found.")  # Send a message if the anime is not found
 @app.on_stop()
 def stop_client(client):
     client.stop()
