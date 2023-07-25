@@ -2,7 +2,7 @@ from pyrogram import Client
 from jikanpy import Jikan
 import signal
 import sys
-api_id = 3845818
+api_id = "3845818"
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
 bot_token = "5210009358:AAESvuzGgAhRITt0BZxgrMjnRqlq2yDf18Q"
 app = Client("my_anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
