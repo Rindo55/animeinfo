@@ -1,37 +1,24 @@
-from bot import telegram_chatbot
-import mal_scraper
+from pyrogram import Client
+from myanimelist import Anime
+api_id = 3845818
+api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
+bot_token = "5210009358:AAESvuzGgAhRITt0BZxgrMjnRqlq2yDf18Q"
+app = Client("my_anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
+app.start()
+   
+@app.on_message()
+def handle_message(client, message):
+    anime_title = message.text  # Get the anime title from the message
+    try:
+        anime = Anime.search(anime_title)[0]  # Search for the anime
+        anime_info = f"Title: {anime.title}\n"
+        anime_info += f"Type: {anime.type}\n"
+        anime_info += f"Episodes: {anime.episodes}\n"
+        anime_info += f"Score: {anime.score}\n"
+        anime_info += f"Synopsis: {anime.synopsis}\n"
 
-bot = telegram_chatbot("config.cfg")
+        client.send_message(message.chat.id, anime_info)  # Send the anime information as a reply
+    except IndexError:
+        client.send_message(message.chat.id, "Anime not found.")  # Send a message if the anime is not found
 
-#get anime name and return info string
-def make_reply(msg):
-    reply = None
-    if msg is not None:
-        reply = format_reply(mal_scraper.scrape_page(msg))
-    return reply
-
-#convert the dictonary value returned from scraping MAL
-def format_reply(msg):
-    return_string = ""
-    for item in msg:
-        return_string += item + " : " + msg[item] + "\n"
-    return return_string
-
-#set initialize updateID
-update_id = None
-
-#keep the server running
-while True:
-    updates = bot.get_updates(offset=update_id)
-    print(updates)
-    updates = updates["result"]
-    if updates:
-        for item in updates:
-            update_id = item["update_id"]
-            try:
-                message = str(item["message"]["text"])
-            except:
-                message = None
-            from_ = item["message"]["from"]["id"]	#get userID to reply back
-            reply = make_reply(message) 			#set reply to a string from 
-            bot.send_message(reply, from_)			#send message reply to bot.py
+app.run()
