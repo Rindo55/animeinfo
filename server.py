@@ -22,5 +22,8 @@ def handle_message(client, message):
       client.send_message(message.chat.id, anime_info)  # Send the anime information as a reply
    except IndexError:
       client.send_message(message.chat.id, "Anime not found.")  # Send a message if the anime is not found
+@app.on_stop()
+def stop_client(client):
+    client.stop()
    
 app.run()
