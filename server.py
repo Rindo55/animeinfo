@@ -23,6 +23,7 @@ update_id = None
 #keep the server running
 while True:
     updates = bot.get_updates(offset=update_id)
+    print(updates)
     updates = updates["result"]
     if updates:
         for item in updates:
