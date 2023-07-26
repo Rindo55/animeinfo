@@ -41,6 +41,51 @@ def handle_message(client, message):
     anime_title = " ".join(message.command[1:])
     anime_info = get_anime_info(anime_title)
     client.send_message(message.chat.id, anime_info)
+def get_ani_info(ani_title):
+    url = f"https://graphql.anilist.co"
+    query = """
+    query ($search: String) {
+        Media(search: $search, type: ANIME) {
+            title {
+                romaji
+                english
+                native
+            }
+            format
+            episodes
+            averageScore
+            description
+        }
+    }
+    """
+    variables = {
+        "search": anime_title
+    }
+    response = requests.post(url, json={"query": query, "variables": variables})
+    data = response.json()
+
+    if "data" in data and data["data"]["Media"]:
+        anime = data["data"]["Media"]
+        anime_info = f"Title (Romaji): {anime['title']['romaji']}\n"
+        if anime['title']['english']:
+            anime_info += f"Title (English): {anime['title']['english']}\n"
+        if anime['title']['native']:
+            anime_info += f"Title (Native): {anime['title']['native']}\n"
+        anime_info += f"Format: {anime['format']}\n"
+        anime_info += f"Episodes: {anime['episodes']}\n"
+        if anime['averageScore']:
+            anime_info += f"Average Score: {anime['averageScore']}\n"
+        anime_info += f"Description: {anime['description']}\n"
+
+        return anime_info
+    else:
+        return "Anime not found."
+
+@app.on_message(filters.command("anilist"))
+def handle_message(client, message):
+    anime_title = " ".join(message.command[1:])
+    anime_info = get_ani_info(ani_title)
+    client.send_message(message.chat.id, anime_info)
 app.start()
 print("Powered by @animxt")
 idle()
