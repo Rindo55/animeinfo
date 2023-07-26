@@ -26,7 +26,7 @@ def get_anime_info(anime_title):
         anime_info += f"Licensors: {anime['licensors']}\n\n"
         anime_info += f"Studio: {anime['studios']}\n\n"
         anime_info += f"Source: {anime['source']}\n\n"
-        anime_info += f"Theme: {anime['theme']}\n\n"
+        anime_info += f"Theme: {anime['themes']}\n\n"
         anime_info += f"Duration: {anime['duration']}\n\n"
         anime_info += f"Rating: {anime['rating']}\n\n"
 
@@ -111,7 +111,6 @@ def get_ani_info(ani_title):
             anime_info += f"Episodes: {anime['episodes']}\n"
         if anime['averageScore']:
             anime_info += f"Average Score: {anime['averageScore']}\n"
-            anime_info += f"Description: {anime['description']}\n"
             anime_info += f"Duration: {anime['duration']}\n"
             anime_info += f"Genre: {anime['genre']}\n"
             return anime_info
