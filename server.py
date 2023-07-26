@@ -21,7 +21,7 @@ def get_anime_info(anime_title):
         anime_info += f"- Episodes: {anime['episodes']}\n\n"
         anime_info += f"- Status: {anime['status']}\n\n"
         anime_info += f"- Aired: {anime['aired']}\n\n"
-        anime_info += f"Premiered: {anime['premiered']}\n\n"
+        anime_info += f"Premiered: {anime['season']}\n\n"
         anime_info += f"Producers: {anime['producers']}\n\n"
         anime_info += f"Licensors: {anime['licensors']}\n\n"
         anime_info += f"Studio: {anime['studios']}\n\n"
@@ -43,21 +43,57 @@ def handle_message(client, message):
     client.send_message(message.chat.id, anime_info)
 def get_ani_info(ani_title):
     url = f"https://graphql.anilist.co"
-    query = """
-    query ($search: String) {
-        Media(search: $search, type: ANIME) {
-            title {
-                romaji
-                english
-                native
-            }
-            format
-            episodes
-            averageScore
-            description
-        }
+query ($id: Int, $idMal:Int, $search: String) {
+  Media (id: $id, idMal: $idMal, search: $search, type: ANIME) {
+    id
+    idMal
+    title {
+      romaji
+      english
+      native
     }
-    """
+    format
+    status
+    episodes
+    duration
+    countryOfOrigin
+    source (version: 2)
+    trailer {
+      id
+      site
+    }
+    genres
+    tags {
+      name
+    }
+    averageScore
+    relations {
+      edges {
+        node {
+          title {
+            romaji
+            english
+          }
+          id
+        }
+        relationType
+      }
+    }
+    nextAiringEpisode {
+      timeUntilAiring
+      episode
+    }
+    isAdult
+    isFavourite
+    mediaListEntry {
+      status
+      score
+      id
+    }
+    siteUrl
+  }
+}
+"""
     variables = {
         "search": ani_title
     }
@@ -76,6 +112,8 @@ def get_ani_info(ani_title):
         if anime['averageScore']:
             anime_info += f"Average Score: {anime['averageScore']}\n"
         anime_info += f"Description: {anime['description']}\n"
+        anime_info += f"Duration: {anime['duration']}\n"
+        anime_info += f"Genre: {anime['genre']}\n"
 
         return anime_info
     else:
