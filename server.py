@@ -115,7 +115,7 @@ if "data" in data and data["data"]["Media"]:
     anime_info += f"Description: {anime['description']}\n"
     anime_info += f"Duration: {anime['duration']}\n"
     anime_info += f"Genre: {anime['genre']}\n"
-    return anime_info
+        return anime_info
 
 
 @app.on_message(filters.command("anilist"))
