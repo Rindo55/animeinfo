@@ -95,27 +95,26 @@ def get_ani_info(ani_title):
   }
 }
 """
-variables = {
-    "search": ani_title
-}
-response = requests.post(url, json={"query": query, "variables": variables})
-data = response.json()
-
-if "data" in data and data["data"]["Media"]:
-    anime = data["data"]["Media"]
-    anime_info = f"Title (Romaji): {anime['title']['romaji']}\n"
-    if anime['title']['english']:
-        anime_info += f"Title (English): {anime['title']['english']}\n"
-    if anime['title']['native']:
-        anime_info += f"Title (Native): {anime['title']['native']}\n"
-    anime_info += f"Format: {anime['format']}\n"
-    anime_info += f"Episodes: {anime['episodes']}\n"
-    if anime['averageScore']:
-        anime_info += f"Average Score: {anime['averageScore']}\n"
-    anime_info += f"Description: {anime['description']}\n"
-    anime_info += f"Duration: {anime['duration']}\n"
-    anime_info += f"Genre: {anime['genre']}\n"
-    return anime_info
+    variables = {
+        "search": ani_title
+    }
+    response = requests.post(url, json={"query": query, "variables": variables})
+    data = response.json()
+    if "data" in data and data["data"]["Media"]:
+        anime = data["data"]["Media"]
+        anime_info = f"Title (Romaji): {anime['title']['romaji']}\n"
+        if anime['title']['english']:
+            anime_info += f"Title (English): {anime['title']['english']}\n" 
+        if anime['title']['native']:
+            anime_info += f"Title (Native): {anime['title']['native']}\n"
+            anime_info += f"Format: {anime['format']}\n"
+            anime_info += f"Episodes: {anime['episodes']}\n"
+        if anime['averageScore']:
+            anime_info += f"Average Score: {anime['averageScore']}\n"
+            anime_info += f"Description: {anime['description']}\n"
+            anime_info += f"Duration: {anime['duration']}\n"
+            anime_info += f"Genre: {anime['genre']}\n"
+            return anime_info
 
 
 @app.on_message(filters.command("anilist"))
