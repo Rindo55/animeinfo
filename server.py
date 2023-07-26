@@ -59,7 +59,7 @@ def get_ani_info(ani_title):
     }
     """
     variables = {
-        "search": anime_title
+        "search": ani_title
     }
     response = requests.post(url, json={"query": query, "variables": variables})
     data = response.json()
