@@ -6,7 +6,7 @@ api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
 bot_token = "5210009358:AAESvuzGgAhRITt0BZxgrMjnRqlq2yDf18Q"
 app = Client("anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
-app.start()
+
    
 @app.on_message()
 def handle_message(client, message):
@@ -23,12 +23,8 @@ def handle_message(client, message):
       app.send_message(message.chat.id, anime_info)  # Send the anime information as a reply
    except IndexError:
       app.send_message(message.chat.id, "Anime not found.")  # Send a message if the anime is not found
-def stop_client(signal, frame):
-   app.stop()
-   sys.exit(0)
-
-signal.signal(signal.SIGINT, stop_client)
-
-app.run()
+app.start()
+print("Powered by @animxt")
+idle()
 
    
