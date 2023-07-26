@@ -21,14 +21,19 @@ def get_anime_info(anime_title):
         anime_info += f"- Episodes: {anime['episodes']}\n\n"
         anime_info += f"- Status: {anime['status']}\n\n"
         anime_info += f"- Aired: {anime['aired']}\n\n"
-        anime_info += f"Premiered: {anime['season']}\n\n"
-        anime_info += f"Producers: {anime['producers']}\n\n"
-        anime_info += f"Licensors: {anime['licensors']}\n\n"
-        anime_info += f"Studio: {anime['studios']}\n\n"
-        anime_info += f"Source: {anime['source']}\n\n"
-        anime_info += f"Theme: {anime['themes']}\n\n"
-        anime_info += f"Duration: {anime['duration']}\n\n"
-        anime_info += f"Rating: {anime['rating']}\n\n"
+        anime_info += f"- Premiered: {anime['season']} {anime['year']} \n\n"
+        
+        producers = [producer['name'] for producer in anime['producers']]
+        anime_info += f"- Producers: {', '.join(producers)}\n\n"
+        licensors = [licensor['name'] for licensor in anime['licensors']]
+        anime_info += f"Licensors: {', '.join(licensors)}\n\n"
+        studios = [studio['name'] for studio in anime['studios']]
+        anime_info += f"Studio: {', '.join(studios)}\n\n"
+        
+        anime_info += f"- Source: {anime['source']}\n\n"
+        anime_info += f"- Theme: {anime['themes']}\n\n"
+        anime_info += f"- Duration: {anime['duration']}\n\n"
+        anime_info += f"- Rating: {anime['rating']}\n\n"
 
 
 
