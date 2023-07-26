@@ -95,30 +95,30 @@ query ($id: Int, $idMal:Int, $search: String) {
   }
 }
 """
-    variables = {
-        "search": ani_title
-    }
-    response = requests.post(url, json={"query": query, "variables": variables})
-    data = response.json()
+variables = {
+    "search": ani_title
+}
+response = requests.post(url, json={"query": query, "variables": variables})
+data = response.json()
 
-    if "data" in data and data["data"]["Media"]:
-        anime = data["data"]["Media"]
-        anime_info = f"Title (Romaji): {anime['title']['romaji']}\n"
-        if anime['title']['english']:
-            anime_info += f"Title (English): {anime['title']['english']}\n"
-        if anime['title']['native']:
-            anime_info += f"Title (Native): {anime['title']['native']}\n"
-        anime_info += f"Format: {anime['format']}\n"
-        anime_info += f"Episodes: {anime['episodes']}\n"
-        if anime['averageScore']:
-            anime_info += f"Average Score: {anime['averageScore']}\n"
-        anime_info += f"Description: {anime['description']}\n"
-        anime_info += f"Duration: {anime['duration']}\n"
-        anime_info += f"Genre: {anime['genre']}\n"
+if "data" in data and data["data"]["Media"]:
+    anime = data["data"]["Media"]
+    anime_info = f"Title (Romaji): {anime['title']['romaji']}\n"
+    if anime['title']['english']:
+        anime_info += f"Title (English): {anime['title']['english']}\n"
+    if anime['title']['native']:
+        anime_info += f"Title (Native): {anime['title']['native']}\n"
+    anime_info += f"Format: {anime['format']}\n"
+    anime_info += f"Episodes: {anime['episodes']}\n"
+    if anime['averageScore']:
+        anime_info += f"Average Score: {anime['averageScore']}\n"
+    anime_info += f"Description: {anime['description']}\n"
+    anime_info += f"Duration: {anime['duration']}\n"
+    anime_info += f"Genre: {anime['genre']}\n"
 
-        return anime_info
-    else:
-        return "Anime not found."
+    return anime_info
+else:
+    return "Anime not found."
 
 @app.on_message(filters.command("anilist"))
 def handle_message(client, message):
