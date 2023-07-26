@@ -8,21 +8,28 @@ bot_token = "5210009358:AAESvuzGgAhRITt0BZxgrMjnRqlq2yDf18Q"
 app = Client("anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
    
-@app.on_message()
-def handle_message(client, message):
-   anime_title = message.text  # Get the anime title from the message
-   try:
-      jikan = Jikan()
-      anime = jikan.search("anime", anime_title)["results"][0]  # Search for the anime
-      anime_info = f"Title: {anime['title']}\n"
-      anime_info += f"Type: {anime['type']}\n"
-      anime_info += f"Episodes: {anime['episodes']}\n"
-      anime_info += f"Score: {anime['score']}\n"
-      anime_info += f"Synopsis: {anime['synopsis']}\n"
+def get_anime_info(anime_title):
+    url = f"https://api.jikan.moe/v4/anime?q={anime_title}"
+    response = requests.get(url)
+    data = response.json()
 
-      app.send_message(message.chat.id, anime_info)  # Send the anime information as a reply
-   except IndexError:
-      app.send_message(message.chat.id, "Anime not found.")  # Send a message if the anime is not found
+    if data:
+        anime = data[0]
+        anime_info = f"Title: {anime['title']['romaji']}\n"
+        anime_info += f"Type: {anime['type']}\n"
+        anime_info += f"Episodes: {anime['episodes']}\n"
+        anime_info += f"Score: {anime['averageScore']}\n"
+        anime_info += f"Synopsis: {anime['description']['en']}\n"
+
+        return anime_info
+    else:
+        return "Anime not found."
+
+@app.on_message(filters.command("anime"))
+def handle_message(client, message):
+    anime_title = " ".join(message.command[1:])
+    anime_info = get_anime_info(anime_title)
+    client.send_message(message.chat.id, anime_info)
 app.start()
 print("Powered by @animxt")
 idle()
