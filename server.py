@@ -116,9 +116,8 @@ if "data" in data and data["data"]["Media"]:
     anime_info += f"Duration: {anime['duration']}\n"
     anime_info += f"Genre: {anime['genre']}\n"
 
-    return anime_info
-else:
-    return "Anime not found."
+return anime_info
+
 
 @app.on_message(filters.command("anilist"))
 def handle_message(client, message):
