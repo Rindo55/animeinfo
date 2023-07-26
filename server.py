@@ -83,7 +83,7 @@ def get_ani_info(ani_title):
 
 @app.on_message(filters.command("anilist"))
 def handle_message(client, message):
-    anime_title = " ".join(message.command[1:])
+    ani_title = " ".join(message.command[1:])
     anime_info = get_ani_info(ani_title)
     client.send_message(message.chat.id, anime_info)
 app.start()
