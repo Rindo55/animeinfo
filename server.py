@@ -15,13 +15,14 @@ def get_anime_info(anime_title):
     response = requests.get(url)
     data = response.json()
 
-    if "data" in data:
-        anime = data["data"]
+    if data:
+        anime = data[0]
         anime_info = f"Title: {anime['title']['romaji']}\n"
         anime_info += f"Type: {anime['type']}\n"
         anime_info += f"Episodes: {anime['episodes']}\n"
         anime_info += f"Score: {anime['averageScore']}\n"
         anime_info += f"Synopsis: {anime['description']['en']}\n"
+
         return anime_info
     else:
         return "Anime not found."
