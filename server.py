@@ -15,11 +15,22 @@ def get_anime_info(anime_title):
 
     if data and "data" in data and len(data["data"]) > 0:
         anime = data["data"][0]
-        anime_info = f"Title: {anime['title']}\n"
-        anime_info += f"Type: {anime['type']}\n"
-        anime_info += f"Episodes: {anime['episodes']}\n"
-        anime_info += f"Score: {anime['score']}\n"
-        anime_info += f"Synopsis: {anime['synopsis']}\n"
+        anime_info = f"**Title: {anime['title']}**\"
+        anime_info += f"- Type: {anime['type']}\n\n"
+        anime_info += f"- Score: {anime['score']}\n\n"
+        anime_info += f"- Episodes: {anime['episodes']}\n\n"
+        anime_info += f"- Status: {anime['status']}\n\n"
+        anime_info += f"- Aired: {anime['aired']}\n\n"
+        anime_info += f"Premiered: {anime['premiered']}\n\n"
+        anime_info += f"Producers: {anime['producers']}\n\n"
+        anime_info += f"Licensors: {anime['licensors']}\n\n"
+        anime_info += f"Studio: {anime['studios']}\n\n"
+        anime_info += f"Source: {anime['source']}\n\n"
+        anime_info += f"Theme: {anime['theme']}\n\n"
+        anime_info += f"Duration: {anime['duration']}\n\n"
+        anime_info += f"Rating: {anime['rating']}\n\n"
+
+
 
         return anime_info
     else:
