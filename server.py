@@ -15,7 +15,7 @@ def get_anime_info(anime_title):
 
     if data and "data" in data and len(data["data"]) > 0:
         anime = data["data"][0]
-        anime_info = f"**Title: {anime['title']}**\"
+        anime_info = f"**Title: {anime['title']}**\n"
         anime_info += f"- Type: {anime['type']}\n\n"
         anime_info += f"- Score: {anime['score']}\n\n"
         anime_info += f"- Episodes: {anime['episodes']}\n\n"
