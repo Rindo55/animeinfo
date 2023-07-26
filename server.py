@@ -18,8 +18,8 @@ def get_anime_info(anime_title):
         anime_info = f"Title: {anime['title']}\n"
         anime_info += f"Type: {anime['type']}\n"
         anime_info += f"Episodes: {anime['episodes']}\n"
-        anime_info += f"Score: {anime['averageScore']}\n"
-        anime_info += f"Synopsis: {anime['description']['en']}\n"
+        anime_info += f"Score: {anime['score']}\n"
+        anime_info += f"Synopsis: {anime['synopsis']}\n"
 
         return anime_info
     else:
