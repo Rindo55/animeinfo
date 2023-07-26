@@ -20,7 +20,12 @@ def get_anime_info(anime_title):
         anime_info += f"- Score: {anime['score']}\n\n"
         anime_info += f"- Episodes: {anime['episodes']}\n\n"
         anime_info += f"- Status: {anime['status']}\n\n"
-        anime_info += f"- Aired: {anime['aired']}\n\n"
+        air = "Aired: {anime['aired']}"
+        air = [aire['from'] and aire['to'] for aire in anime['aired']]
+        anime_info += f"Aired: {', '.join(aire)}\n\n"
+        
+        aired = air.replace("T00:00:00+00:00"
+        anime_info += f"- Aired: )\n\n"
         anime_info += f"- Premiered: {anime['season']} {anime['year']} \n\n"
         
         producers = [producer['name'] for producer in anime['producers']]
@@ -28,10 +33,10 @@ def get_anime_info(anime_title):
         licensors = [licensor['name'] for licensor in anime['licensors']]
         anime_info += f"Licensors: {', '.join(licensors)}\n\n"
         studios = [studio['name'] for studio in anime['studios']]
-        anime_info += f"Studio: {', '.join(studios)}\n\n"
-        
+        anime_info += f"Studio: {', '.join(studios)}\n\n"        
         anime_info += f"- Source: {anime['source']}\n\n"
-        anime_info += f"- Theme: {anime['themes']}\n\n"
+        themes = [theme['name'] for theme in anime['themes']]
+        anime_info += f"Themes: {', '.join(themes)}\n"
         anime_info += f"- Duration: {anime['duration']}\n\n"
         anime_info += f"- Rating: {anime['rating']}\n\n"
 
