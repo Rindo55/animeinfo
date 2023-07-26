@@ -1,4 +1,4 @@
-from pyrogram import Client, idle
+from pyrogram import Client, idle, filters
 from jikanpy import Jikan
 import signal
 import sys
