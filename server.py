@@ -43,6 +43,7 @@ def handle_message(client, message):
     client.send_message(message.chat.id, anime_info)
 def get_ani_info(ani_title):
     url = f"https://graphql.anilist.co"
+query = """
 query ($id: Int, $idMal:Int, $search: String) {
   Media (id: $id, idMal: $idMal, search: $search, type: ANIME) {
     id
