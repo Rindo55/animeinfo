@@ -20,12 +20,12 @@ def get_anime_info(anime_title):
         anime_info += f"- Score: {anime['score']}\n\n"
         anime_info += f"- Episodes: {anime['episodes']}\n\n"
         anime_info += f"- Status: {anime['status']}\n\n"
-        air = "Aired: {anime['aired']}"
+    
         air = [aire['from'] and aire['to'] for aire in anime['aired']]
+        aired = air.replace("T00:00:00+00:00", "")
         anime_info += f"Aired: {', '.join(aire)}\n\n"
         
-        aired = air.replace("T00:00:00+00:00"
-        anime_info += f"- Aired: )\n\n"
+        
         anime_info += f"- Premiered: {anime['season']} {anime['year']} \n\n"
         
         producers = [producer['name'] for producer in anime['producers']]
