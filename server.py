@@ -12,10 +12,10 @@ def get_anime_info(anime_title):
     url = f"https://api.jikan.moe/v4/anime?q={anime_title}"
     response = requests.get(url)
     data = response.json()
-   
+
     if data and "data" in data and len(data["data"]) > 0:
         anime = data["data"][0]
-        anime_info = f"Title: {anime['title']['romaji']}\n"
+        anime_info = f"Title: {anime['title']}\n"
         anime_info += f"Type: {anime['type']}\n"
         anime_info += f"Episodes: {anime['episodes']}\n"
         anime_info += f"Score: {anime['averageScore']}\n"
