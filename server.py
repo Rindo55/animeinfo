@@ -318,6 +318,95 @@ async def handle_message(client, message):
     result = await get_anilist_data(name)
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
+
+
+async def get_anime_info(anime_name):
+    query = '''
+    query ($anime_name: String) {
+        Media (search: $anime_name, type: ANIME) {
+            title {
+                romaji
+                english
+            }
+            type
+            averageScore
+            source
+            duration
+            episodes
+            genres
+            tags {
+                name
+            }
+            status
+            studios {
+                nodes {
+                    name
+                }
+            }
+            startDate {
+                year
+                month
+                day
+            }
+            endDate {
+                year
+                month
+                day
+            }
+            licensors {
+                nodes {
+                    name
+                }
+            }
+            season
+            producers {
+                nodes {
+                    name
+                }
+            }
+        }
+    }
+    '''
+
+    variables = {
+        "anime_name": anime_name
+    }
+
+    response = requests.post(ANILIST_API, json={"query": query, "variables": variables})
+    data = response.json()
+
+    return data["data"]["Media"]
+
+
+# Handler for /anime command
+@app.on_message(pyrogram.Filters.command("ani"))
+async def anime_command_handler(client, message):
+    # Get the anime name from the command arguments
+    anime_name = " ".join(message.command[1:])
+
+    # Get anime info from AniList
+    anime_info = await get_anime_info(anime_name)
+
+    # Format the anime info into a string
+    info_string = f"Title: {anime_info['title']['romaji']}\n"
+    info_string += f"English Title: {anime_info['title']['english']}\n"
+    info_string += f"Type: {anime_info['type']}\n"
+    info_string += f"Score: {anime_info['averageScore']}\n"
+    info_string += f"Source: {anime_info['source']}\n"
+    info_string += f"Duration: {anime_info['duration']}\n"
+    info_string += f"Episodes: {anime_info['episodes']}\n"
+    info_string += f"Genres: {', '.join(anime_info['genres'])}\n"
+    info_string += f"Tags: {', '.join(tag['name'] for tag in anime_info['tags'])}\n"
+    info_string += f"Status: {anime_info['status']}\n"
+    info_string += f"Studio: {anime_info['studios']['nodes'][0]['name']}\n"
+    info_string += f"Start Date: {anime_info['startDate']['year']}-{anime_info['startDate']['month']}-{anime_info['startDate']['day']}\n"
+    info_string += f"End Date: {anime_info['endDate']['year']}-{anime_info['endDate']['month']}-{anime_info['endDate']['day']}\n"
+    info_string += f"Licensors: {', '.join(licensor['name'] for licensor in anime_info['licensors']['nodes'])}\n"
+    info_string += f"Season: {anime_info['season']}\n"
+    info_string += f"Producers: {', '.join(producer['name'] for producer in anime_info['producers']['nodes'])}\n"
+
+    # Send the anime info as a reply
+    await message.reply_text(info_string)
 app.start()
 print("Powered by @animxt")
 idle()
