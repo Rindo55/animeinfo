@@ -260,9 +260,8 @@ async def get_anilist_data(name):
 
 @app.on_message(filters.command("anilist"))
 def handle_message(client, message):
-    ani_title = " ".join(message.command[1:])
-    anime_info = get_anilist_data(name)
-    img, caption = await get_anilist_data(title)
+    name = " ".join(message.command[1:])
+    img, caption = get_anilist_data(name)
     main = await app.send_photo(message.chat.id,photo=img,caption=caption)
 app.start()
 print("Powered by @animxt")
