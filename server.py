@@ -51,6 +51,59 @@ def handle_message(client, message):
     anime_title = " ".join(message.command[1:])
     anime_info = get_anime_info(anime_title)
     client.send_message(message.chat.id, anime_info)
+
+ANIME_QUERY = """
+query ($id: Int, $idMal:Int, $search: String) {
+  Media (id: $id, idMal: $idMal, search: $search, type: ANIME) {
+    id
+    idMal
+    title {
+      romaji
+      english
+      native
+    }
+    format
+    status
+    episodes
+    duration
+    countryOfOrigin
+    source (version: 2)
+    trailer {
+      id
+      site
+    }
+    genres
+    tags {
+      name
+    }
+    averageScore
+    relations {
+      edges {
+        node {
+          title {
+            romaji
+            english
+          }
+          id
+        }
+        relationType
+      }
+    }
+    nextAiringEpisode {
+      timeUntilAiring
+      episode
+    }
+    isAdult
+    isFavourite
+    mediaListEntry {
+      status
+      score
+      id
+    }
+    siteUrl
+  }
+}
+"""
 ANIME_DB = {}
 
 async def return_json_senpai(query: str, vars_: dict):
