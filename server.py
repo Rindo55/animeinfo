@@ -313,11 +313,11 @@ async def get_anilist_data(name):
     return img, caption
 
 @app.on_message(filters.command("anilist"))
-def handle_message(client, message):
+async def handle_message(client, message):
     name = " ".join(message.command[1:])
     result = await get_anilist_data(name)
     img, caption = result
-    main = client.send_photo(message.chat.id,photo=img,caption=caption)
+    return await client.send_photo(message.chat.id,photo=img,caption=caption)
 app.start()
 print("Powered by @animxt")
 idle()
