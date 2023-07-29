@@ -1,4 +1,5 @@
 from pyrogram import Client, idle, filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from jikanpy import Jikan
 import signal
 import sys
