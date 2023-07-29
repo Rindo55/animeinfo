@@ -372,7 +372,7 @@ async def get_anime_info(anime_name):
     variables = {
         "anime_name": anime_name
     }
-
+    ANILIST_API = "https://graphql.anilist.co"
     response = requests.post(ANILIST_API, json={"query": query, "variables": variables})
     data = response.json()
 
