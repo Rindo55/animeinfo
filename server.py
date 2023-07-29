@@ -1,4 +1,5 @@
-import pyrogram
+from pyrogram import Client, idle, filters
+import asyncio
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from jikanpy import Jikan
 import signal
@@ -379,7 +380,7 @@ async def get_anime_info(anime_name):
 
 
 # Handler for /anime command
-@app.on_message(pyrogram.Filters.command("ani"))
+@app.on_message(filters.command("ani"))
 async def anime_command_handler(client, message):
     # Get the anime name from the command arguments
     anime_name = " ".join(message.command[1:])
