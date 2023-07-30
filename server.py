@@ -84,6 +84,11 @@ query ($id: Int, $idMal:Int, $search: String) {
             name
         }
     }
+    producers {
+        nodes {
+            name
+        }
+    }
     averageScore
     relations {
       edges {
@@ -184,6 +189,7 @@ atext = """
 • Genre: #{}
 • Studio: {}
 • Season: {}
+• Producers: {}
 • Status: {}
 • Episodes: {}
 • Duration: {} mins/Ep**
@@ -203,6 +209,7 @@ async def get_anilist_data(name):
     genres = data.get("genres")
     studio = data.get("studios")
     season = data.get("season")
+    producer = data.get("producers")
     averageScore = data.get("averageScore")
     img = f"https://img.anili.st/media/{id_}"
 
@@ -307,6 +314,7 @@ async def get_anilist_data(name):
       genre,
       studiox,
       season,
+      producer,
       status,
       episodes,
       duration
