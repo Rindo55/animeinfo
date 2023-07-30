@@ -235,6 +235,8 @@ async def get_anilist_data(name):
     genre = genre.replace("#Mahou Shoujo", "#Mahou_Shoujo")    
     genre = genre.replace("#Sci-Fi", "#SciFi")
     
+    studiox = data['studios']['nodes'][0]['name']
+   
     tags = []
     for i in data['tags']:
         tags.append(i["name"])
@@ -312,7 +314,7 @@ async def get_anilist_data(name):
       source,
       averageScore,
       genre,
-      studio,
+      studiox,
       status,
       episodes,
       duration
