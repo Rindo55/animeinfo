@@ -249,7 +249,7 @@ async def get_anilist_data(name):
     genre = genre.replace("#Slice of Life", "#Slice_of_Life")
     genre = genre.replace("#Mahou Shoujo", "#Mahou_Shoujo")    
     genre = genre.replace("#Sci-Fi", "#SciFi")
-    studiox = ['studios']['nodes'][0]['name']
+    studiox = data['studios']['nodes'][0]['name']
     licensors = f"{', '.join(licensor['name'] for licensor in data['licensors']['nodes'])}"
     producer = f"{', '.join(producer['name'] for producer in data['producers']['nodes'])}"
     tags = []
