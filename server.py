@@ -79,7 +79,10 @@ query ($id: Int, $idMal:Int, $search: String) {
       name
     }
     studios{
-      name
+    studios {
+        nodes {
+            name
+        }
     }
     startDate {
         year
@@ -232,8 +235,10 @@ async def get_anilist_data(name):
     genre = genre.replace("#Slice of Life", "#Slice_of_Life")
     genre = genre.replace("#Mahou Shoujo", "#Mahou_Shoujo")    
     genre = genre.replace("#Sci-Fi", "#SciFi")
-    
-    studiox = data['studios']['name']
+        
+    studiox = ""
+    for i in data['studios']['nodes']:
+      studiox +=  f"{i['name']}, "
    
     tags = []
     for i in data['tags']:
