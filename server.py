@@ -93,6 +93,17 @@ query ($id: Int, $idMal:Int, $search: String) {
         month
         day
     }
+    licensors {
+        nodes {
+            name
+        }
+    }
+    season
+    producers {
+        nodes {
+            name
+        }
+    }
     averageScore
     relations {
       edges {
@@ -192,6 +203,9 @@ atext = """
 • Score: 🌟{}
 • Genre: #{}
 • Studio: {}
+• Season: {}
+• Producers: {}
+• Licensors: {}
 • Status: {}
 • Episodes: {}
 • Duration: {} mins/Ep**
@@ -210,6 +224,7 @@ async def get_anilist_data(name):
     trailer = data.get("trailer")
     genres = data.get("genres")
     studio = data.get("studios")
+    season = data.get("season")
     averageScore = data.get("averageScore")
     img = f"https://img.anili.st/media/{id_}"
 
@@ -234,11 +249,9 @@ async def get_anilist_data(name):
     genre = genre.replace("#Slice of Life", "#Slice_of_Life")
     genre = genre.replace("#Mahou Shoujo", "#Mahou_Shoujo")    
     genre = genre.replace("#Sci-Fi", "#SciFi")
-        
-    studiox = ""
-    for i in data['studios']['nodes']:
-      studiox +=  f"{i['name']}, "
-    studiox = studiox[:-2]
+    studiox = ['studios']['nodes'][0]['name']
+    licensors = f"{', '.join(licensor['name'] for licensor in data['licensors']['nodes'])}"
+    producer = f"{', '.join(producer['name'] for producer in data['producers']['nodes'])}"
     tags = []
     for i in data['tags']:
         tags.append(i["name"])
@@ -317,6 +330,9 @@ async def get_anilist_data(name):
       averageScore,
       genre,
       studiox,
+      season,
+      producer,
+      licensors,
       status,
       episodes,
       duration
