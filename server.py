@@ -66,6 +66,7 @@ query ($id: Int, $idMal:Int, $search: String) {
     }
     format
     status
+    season
     episodes
     duration
     countryOfOrigin
@@ -79,22 +80,6 @@ query ($id: Int, $idMal:Int, $search: String) {
       name
     }
     studios {
-        nodes {
-            name
-        }
-    }
-    startDate {
-        year
-        month
-        day
-    }
-    endDate {
-        year
-        month
-        day
-    }
-    season
-    producers {
         nodes {
             name
         }
@@ -199,7 +184,6 @@ atext = """
 • Genre: #{}
 • Studio: {}
 • Season: {}
-• Producers: {}
 • Status: {}
 • Episodes: {}
 • Duration: {} mins/Ep**
@@ -244,7 +228,6 @@ async def get_anilist_data(name):
     genre = genre.replace("#Mahou Shoujo", "#Mahou_Shoujo")    
     genre = genre.replace("#Sci-Fi", "#SciFi")
     studiox = data['studios']['nodes'][0]['name']
-    producer = f"{', '.join(producer['name'] for producer in data['producers']['nodes'])}"
     tags = []
     for i in data['tags']:
         tags.append(i["name"])
@@ -324,7 +307,6 @@ async def get_anilist_data(name):
       genre,
       studiox,
       season,
-      producer,
       status,
       episodes,
       duration
