@@ -313,7 +313,7 @@ async def get_anilist_data(name):
         themes = themes.replace("[", "")
         themes = themes.replace("]", "")
         themes = themes.replace("'", "")
-        season = f"mal['season'] mal['year']}"
+        season = f"mal['season'] mal['year']"
         rating = mal['rating']
                                 
     caption = atext.format(
