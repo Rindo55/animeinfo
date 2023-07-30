@@ -305,15 +305,15 @@ async def get_anilist_data(name):
     tagsx = tagsx.replace("#Video Games", "#Video_Games")
     if data and "data" in maldata and len(maldata["data"]) > 0:
         mal = maldata["data"][0]
-        producer = []
-        for i in mal['producers']:
-             producer.append(i["name"])
+        producer = ""
+        for i in mal['producers']['name']:
+             producer += i + ", "
         producerx = producer.replace("'","")
         producerx = producer.replace("[","")
         producerx = producer.replace("]","")
         theme = []
         for i in mal['themes']:
-             theme.append(i["name"])
+              theme.append(i["name"])
         season = f"{mal['season']} {mal['year']}"
         rating = mal['rating']
                                 
