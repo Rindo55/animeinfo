@@ -78,6 +78,21 @@ query ($id: Int, $idMal:Int, $search: String) {
     tags {
       name
     }
+    studios {
+        nodes {
+            name
+        }
+    }
+    startDate {
+        year
+        month
+        day
+    }
+    endDate {
+        year
+        month
+        day
+    }
     averageScore
     relations {
       edges {
@@ -176,6 +191,7 @@ atext = """
 • Source: {}
 • Score: 🌟{}
 • Genre: #{}
+• Studio: {}
 • Status: {}
 • Episodes: {}
 • Duration: {} mins/Ep**
@@ -193,6 +209,7 @@ async def get_anilist_data(name):
     duration = data.get("duration")
     trailer = data.get("trailer")
     genres = data.get("genres")
+    studio = data.get("studios")
     averageScore = data.get("averageScore")
     img = f"https://img.anili.st/media/{id_}"
 
@@ -295,6 +312,7 @@ async def get_anilist_data(name):
       source,
       averageScore,
       genre,
+      studio,
       status,
       episodes,
       duration
