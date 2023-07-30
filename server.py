@@ -235,7 +235,7 @@ async def get_anilist_data(name):
     genre = genre.replace("#Mahou Shoujo", "#Mahou_Shoujo")    
     genre = genre.replace("#Sci-Fi", "#SciFi")
     
-    studiox = data['studios']['nodes']['name']
+    studiox = data['studios']['name']
    
     tags = []
     for i in data['tags']:
