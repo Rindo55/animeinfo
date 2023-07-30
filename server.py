@@ -81,7 +81,6 @@ query ($id: Int, $idMal:Int, $search: String) {
     studios{
       name
     }
-    }
     startDate {
         year
         month
