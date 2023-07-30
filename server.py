@@ -193,18 +193,14 @@ atext = """
 
 async def get_anilist_data(name):
     malurl = f"https://api.jikan.moe/v4/anime?q={name}"
-    malresponse = requests.get(url)
-    maldata = response.json()
-    if data and "data" in data and len(data["data"]) > 0:
-        mal = maldata["data"][0]
+    malresponse = requests.get(malurl)
+    maldata = malresponse.json()
     vars_ = {"search": name}
     data = await get_anime(vars_,less=False)
     id_ = data.get("id")
     title = data.get("title")
     form = data.get("format")
     source = data.get("source")
-    producers = [producer['name'] for producer in mal['producers']]
-    themes = [theme['name'] for theme in mal['themes']]
     status = data.get("status")
     episodes = data.get("episodes")
     duration = data.get("duration")
@@ -307,6 +303,11 @@ async def get_anilist_data(name):
     tagsx = tagsx.replace("#Classic Literature", "#Classic_Literature")
     tagsx = tagsx.replace("#Tanned Skin", "#Tanned_Skin")
     tagsx = tagsx.replace("#Video Games", "#Video_Games")
+    if data and "data" in maldata and len(maldata["data"]) > 0:
+        mal = maldata["data"][0]
+        producers = [producer['name'] for producer in mal['producers']]
+        themes = [theme['name'] for theme in mal['themes']]
+        
     caption = atext.format(
       title1,
       title2,
