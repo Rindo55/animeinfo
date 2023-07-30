@@ -307,7 +307,7 @@ async def get_anilist_data(name):
         theme = []
         for i in mal['themes']:
               theme.append(i["name"])
-        theme = ",".join(theme)"
+        theme = ",".join(theme)
         season = f"{mal['season']} {mal['year']}"
         rating = mal['rating']
                                 
