@@ -178,19 +178,35 @@ atext = """
 📺 **{}**
       **({})**
 **━━━━━━━━━━━━━━━━━━━━━━**
-**• Type: {}
-• Source: {}
-• Score: 🌟{}
-• Genre: #{}
-• Studio: {}
-• Aired: {}
-• Season: {}
-• Producers: {}
-• Themes: {}
-• Status: {}
-• Episodes: {}
-• Duration: {} mins/Ep**
-• Rating: {}
+**- Type: {}
+
+- Score: 🌟{}
+
+- Episodes: {}
+
+- Status: {}
+
+- Aired: {}
+
+- Premiered: {}
+
+- Producers: {}
+
+- Licensors: {}
+
+- Studio: {}
+
+- Source: {}
+
+- Genre: #{}
+
+- Theme: {}
+
+- Duration: {} mins/Ep**
+
+- Rating: {}
+
+- Tags: {}
 """
 
 async def get_anilist_data(name):
@@ -322,18 +338,20 @@ async def get_anilist_data(name):
       title1,
       title2,
       form,
-      source,
+
       averageScore,
+      episodes,
+      source,
       genre,
       studiox,
       aired,
       season,
       producer,
       theme,
-      status,
-      episodes,
+      status,      
       duration, 
-      rating
+      rating,
+      tagsx
     )
 
     if trailer != None:
