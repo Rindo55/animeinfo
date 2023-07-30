@@ -84,11 +84,6 @@ query ($id: Int, $idMal:Int, $search: String) {
             name
         }
     }
-    producers {
-        nodes {
-            name
-        }
-    }
     averageScore
     relations {
       edges {
@@ -190,18 +185,26 @@ atext = """
 • Studio: {}
 • Season: {}
 • Producers: {}
+• Themes: {}
 • Status: {}
 • Episodes: {}
 • Duration: {} mins/Ep**
 """
 
 async def get_anilist_data(name):
+    malurl = f"https://api.jikan.moe/v4/anime?q={name}"
+    malresponse = requests.get(url)
+    maldata = response.json()
+    if data and "data" in data and len(data["data"]) > 0:
+        mal = maldata["data"][0]
     vars_ = {"search": name}
     data = await get_anime(vars_,less=False)
     id_ = data.get("id")
     title = data.get("title")
     form = data.get("format")
     source = data.get("source")
+    producers = [producer['name'] for producer in mal['producers']]
+    themes = [theme['name'] for theme in mal['themes']]
     status = data.get("status")
     episodes = data.get("episodes")
     duration = data.get("duration")
@@ -209,7 +212,6 @@ async def get_anilist_data(name):
     genres = data.get("genres")
     studio = data.get("studios")
     season = data.get("season")
-    producer = data.get("producers")
     averageScore = data.get("averageScore")
     img = f"https://img.anili.st/media/{id_}"
 
@@ -314,7 +316,8 @@ async def get_anilist_data(name):
       genre,
       studiox,
       season,
-      producer,
+      producers,
+      themes,
       status,
       episodes,
       duration
