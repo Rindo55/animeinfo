@@ -308,10 +308,13 @@ async def get_anilist_data(name):
         producer = []
         for i in mal['producers']:
              producer.append(i["name"])
+        producerx = producer.replace("'","")
+        producerx = producer.replace("[","")
+        producerx = producer.replace("]","")
         theme = []
         for i in mal['themes']:
              theme.append(i["name"])
-        season = f"mal['season'] mal['year']"
+        season = f"{mal['season']} {mal['year']}"
         rating = mal['rating']
                                 
     caption = atext.format(
@@ -323,7 +326,7 @@ async def get_anilist_data(name):
       genre,
       studiox,
       season,
-      producer,
+      producerx,
       theme,
       status,
       episodes,
