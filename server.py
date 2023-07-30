@@ -316,7 +316,7 @@ async def get_anilist_data(name):
         theme = ", ".join(theme)
         season = f"{mal['season']} {mal['year']}"
         rating = mal['rating']
-        aired = mal['string']
+        aired = mal['aired']['string']
                                 
     caption = atext.format(
       title1,
