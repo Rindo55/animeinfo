@@ -183,7 +183,9 @@ atext = """
 • Score: 🌟{}
 • Genre: #{}
 • Studio: {}
+• Aired: {}
 • Season: {}
+• Producers: {}
 • Themes: {}
 • Status: {}
 • Episodes: {}
@@ -304,12 +306,17 @@ async def get_anilist_data(name):
     tagsx = tagsx.replace("#Video Games", "#Video_Games")
     if data and "data" in maldata and len(maldata["data"]) > 0:
         mal = maldata["data"][0]
+        producer = []
+        for i in mal['producers']:
+            producer.append(i["name"])
+        producer = ", ".join(producer)
         theme = []
         for i in mal['themes']:
               theme.append(i["name"])
-        theme = ",".join(theme)
+        theme = ", ".join(theme)
         season = f"{mal['season']} {mal['year']}"
         rating = mal['rating']
+        aired = mal['string']
                                 
     caption = atext.format(
       title1,
@@ -319,7 +326,9 @@ async def get_anilist_data(name):
       averageScore,
       genre,
       studiox,
+      aired,
       season,
+      producer,
       theme,
       status,
       episodes,
