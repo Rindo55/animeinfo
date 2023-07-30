@@ -189,6 +189,7 @@ atext = """
 • Status: {}
 • Episodes: {}
 • Duration: {} mins/Ep**
+• Rating: {}
 """
 
 async def get_anilist_data(name):
@@ -207,7 +208,6 @@ async def get_anilist_data(name):
     trailer = data.get("trailer")
     genres = data.get("genres")
     studio = data.get("studios")
-    season = data.get("season")
     averageScore = data.get("averageScore")
     img = f"https://img.anili.st/media/{id_}"
 
@@ -306,8 +306,16 @@ async def get_anilist_data(name):
     if data and "data" in maldata and len(maldata["data"]) > 0:
         mal = maldata["data"][0]
         producers = [producer['name'] for producer in mal['producers']]
+        producers = producers.replace("[", "")
+        producers = producers.replace("]", "")
+        producers = producers.replace("'", "")
         themes = [theme['name'] for theme in mal['themes']]
-        
+        themes = themes.replace("[", "")
+        themes = themes.replace("]", "")
+        themes = themes.replace("'", "")
+        season = f"mal['season'] mal['year']}"
+        rating = mal['rating']
+                                
     caption = atext.format(
       title1,
       title2,
@@ -321,7 +329,8 @@ async def get_anilist_data(name):
       themes,
       status,
       episodes,
-      duration
+      duration, 
+      rating
     )
 
     if trailer != None:
