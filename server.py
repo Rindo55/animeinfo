@@ -93,11 +93,6 @@ query ($id: Int, $idMal:Int, $search: String) {
         month
         day
     }
-    licensors {
-        nodes {
-            name
-        }
-    }
     season
     producers {
         nodes {
@@ -205,7 +200,6 @@ atext = """
 • Studio: {}
 • Season: {}
 • Producers: {}
-• Licensors: {}
 • Status: {}
 • Episodes: {}
 • Duration: {} mins/Ep**
@@ -250,7 +244,6 @@ async def get_anilist_data(name):
     genre = genre.replace("#Mahou Shoujo", "#Mahou_Shoujo")    
     genre = genre.replace("#Sci-Fi", "#SciFi")
     studiox = data['studios']['nodes'][0]['name']
-    licensors = f"{', '.join(licensor['name'] for licensor in data['licensors']['nodes'])}"
     producer = f"{', '.join(producer['name'] for producer in data['producers']['nodes'])}"
     tags = []
     for i in data['tags']:
@@ -332,7 +325,6 @@ async def get_anilist_data(name):
       studiox,
       season,
       producer,
-      licensors,
       status,
       episodes,
       duration
@@ -450,4 +442,3 @@ app.start()
 print("Powered by @animxt")
 idle()
 
-   
