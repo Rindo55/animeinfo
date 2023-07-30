@@ -78,7 +78,6 @@ query ($id: Int, $idMal:Int, $search: String) {
     tags {
       name
     }
-    studios{
     studios {
         nodes {
             name
