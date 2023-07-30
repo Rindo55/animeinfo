@@ -78,10 +78,9 @@ query ($id: Int, $idMal:Int, $search: String) {
     tags {
       name
     }
-    studios {
-        nodes {
-            name
-        }
+    studios{
+      name
+    }
     }
     startDate {
         year
