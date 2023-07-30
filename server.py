@@ -238,7 +238,7 @@ async def get_anilist_data(name):
     studiox = ""
     for i in data['studios']['nodes']:
       studiox +=  f"{i['name']}, "
-   
+    studiox = studiox[:-2]
     tags = []
     for i in data['tags']:
         tags.append(i["name"])
