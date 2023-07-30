@@ -8,7 +8,7 @@ import aiohttp
 import requests
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
-bot_token = "5210009358:AAESvuzGgAhRITt0BZxgrMjnRqlq2yDf18Q"
+bot_token = "5410320498:AAGAPfA_Wnl4ZQRpCIWhxQR008O97_aIf7I"
 app = Client("anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 def get_anime_info(anime_title):
     url = f"https://api.jikan.moe/v4/anime?q={anime_title}"
