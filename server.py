@@ -320,6 +320,8 @@ async def get_anilist_data(title):
     tagsx = tagsx.replace("#Classic Literature", "#Classic_Literature")
     tagsx = tagsx.replace("#Tanned Skin", "#Tanned_Skin")
     tagsx = tagsx.replace("#Video Games", "#Video_Games")
+    tagsx = tagsx.replace("#Alternate Universe", "#Alternate_Universe")
+    tagsx = tagsx.replace("#Anti-Hero", "#AntiHero")
     if data and "data" in maldata and len(maldata["data"]) > 0:
       mal = maldata["data"][0]
       producer = []
@@ -330,6 +332,9 @@ async def get_anilist_data(title):
       for i in mal['licensors']:
         licensor.append(i["name"])
       licensor = ", ".join(licensor)
+      if licensor=="":
+          licensor=licensore.replace("", "Unknown")
+        
       theme = []
       for i in mal['themes']:
         theme.append(i["name"])
@@ -342,8 +347,8 @@ async def get_anilist_data(title):
       malpopularity = mal['popularity']
       
       caption = atext.format(
-      title1,
       title2,
+      title1,
       form,
       averageScore,
       episodes,
