@@ -6,7 +6,7 @@ import signal
 import sys
 import aiohttp
 import requests
-import html-telegraph-poster
+
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
 bot_token = "5222572158:AAENHtTOnhWBh4UUZKTjq5ruMtil_4zRA_0"
