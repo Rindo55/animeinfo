@@ -211,10 +211,10 @@ atext = """
 """
 
 async def get_anilist_data(title):
-    malurl = f"https://api.jikan.moe/v4/anime?q={name}"
+    malurl = f"https://api.jikan.moe/v4/anime?q={title}"
     malresponse = requests.get(malurl)
     maldata = malresponse.json()
-    vars_ = {"search": name}
+    vars_ = {"search": title}
     data = await get_anime(vars_,less=False)
     id_ = data.get("id")
     title = data.get("title")
