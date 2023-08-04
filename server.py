@@ -367,7 +367,7 @@ async def get_anilist_data(title):
       malpopularity = mal['popularity']
     synopsis = mal["synopsis"]   
     synopsisx = await synopsis_desu(synopsis)
-      caption = atext.format(
+    caption = atext.format(
       title2,
       title1,
       form,
