@@ -169,6 +169,24 @@ def synopsis_desu(synopsis):
         text=out,
     )
     return page["url"]
+
+async def info(title):
+    process = subprocess.Popen(
+        ["mediainfo", file, "--Output=HTML"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    stdout, stderr = process.communicate()
+    out = stdout.decode()
+    client = TelegraphPoster(use_api=True)
+    client.create_api_token("synpsis")
+    page = client.post(
+        title="Synopsis",
+        author="Natsu",
+        author_url=f"https://t.me/animearchivex",
+        text=synopsi,
+    )
+    return page["url"]
 async def get_anime_img(query):
     vars_ = {"search": query}
     idm, title_img, title = await get_anime(vars_,less=True)
@@ -368,7 +386,7 @@ async def get_anilist_data(title):
     req = requests.get(ges)
     rem = req.json()
     print(rem)
-    syn = rem['result']['url']
+    syn = rem['url']
     caption = atext.format(
       title2,
       title1,
