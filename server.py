@@ -223,8 +223,6 @@ atext = """
 - Tags: {}
 
 - Rank: {} | Popularity: {}
-
-- Synopsis: {}
 """
 async def get_anilist_data(title):
     malurl = f"https://api.jikan.moe/v4/anime?q={title}"
@@ -361,8 +359,9 @@ async def get_anilist_data(title):
       malink = mal['url']
       malrank = mal['rank']
       malpopularity = mal['popularity']
-    synopsis = mal["synopsis"]   
-    req = requests.post("https://api.telegra.ph/createPage?access_token=d3b25feccb89e508a9114afb82aa421fe2a9712b963b387cc5ad71e58722&title=Synopsis&author_name=Anime%20Archivist&content=[{%22tag%22:%22p%22,%22children%22:[%22{synopsis}%22]}]&return_content=true")
+    synopsis = mal["synopsis"]
+    ges = f"https://api.telegra.ph/createPage?access_token=d3b25feccb89e508a9114afb82aa421fe2a9712b963b387cc5ad71e58722&title=Synopsis&author_name=Anime%20Archivist&content=[{%22tag%22:%22p%22,%22children%22:[%22{synopsis}%22]}]&return_content=true"
+    req = requests.post()
     rem = req.json()
     syn = rem["result"]["url"]
     caption = atext.format(
@@ -385,7 +384,6 @@ async def get_anilist_data(title):
       tagsx,
       malrank,
       malpopularity,
-      syn
     )
 
 
@@ -396,9 +394,9 @@ async def get_anilist_data(title):
       site = None
 
     if site == "youtube":
-      caption += f"\n- Links: [Trailer](https://www.youtube.com/watch?v={ytid}) | [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n ━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
+      caption += f"\n - [Synopsis](syn)\n\n- Links: [Trailer](https://www.youtube.com/watch?v={ytid}) | [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n ━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
     else:
-      caption += f"\n- Links: [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
+      caption += f"\n - [Synopsis](syn)\n\n- Links: [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
 
     return img, caption
                                 
