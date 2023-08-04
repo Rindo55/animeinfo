@@ -6,6 +6,7 @@ import signal
 import sys
 import aiohttp
 import requests
+from . import *
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
 bot_token = "5222572158:AAENHtTOnhWBh4UUZKTjq5ruMtil_4zRA_0"
@@ -378,15 +379,15 @@ async def get_anilist_data(title):
       malrank = mal['rank']
       malpopularity = mal['popularity']
       synopsi = mal['synopsis']
-    access_token = "d3b25feccb89e508a9114afb82aa421fe2a9712b963b387cc5ad71e58722"
-    titlez = "Synopsis"
-    author_name = "AnimeArchivist"
-    return_content = "true"
-    ges = f"https://api.graph.org/createPage?access_token={access_token}&title={titlez}&author_name={author_name}&content=%5B{synopsi}%5D&return_content={return_content}"
-    req = requests.get(ges)
-    rem = req.json()
-    print(rem)
-    syn = rem['url']
+    client = TelegraphPoster(use_api=True)
+    client.create_api_token("synpsis")
+    page = client.post(
+        title="Synopsis",
+        author="Natsu",
+        author_url=f"https://t.me/animearchivex",
+        text=synopsi,
+    )
+    syn = page["url"]
     caption = atext.format(
       title2,
       title1,
