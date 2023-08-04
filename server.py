@@ -5,7 +5,6 @@ from jikanpy import Jikan
 import signal
 import sys
 import aiohttp
-import TelegraphPoster
 import requests
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
