@@ -66,7 +66,6 @@ query ($id: Int, $idMal:Int, $search: String) {
     }
     format
     status
-    season
     episodes
     duration
     countryOfOrigin
@@ -80,9 +79,9 @@ query ($id: Int, $idMal:Int, $search: String) {
       name
     }
     studios {
-        nodes {
-            name
-        }
+    nodes {
+        name
+    }
     }
     averageScore
     relations {
@@ -178,7 +177,7 @@ atext = """
 📺 **{}**
       **({})**
 **━━━━━━━━━━━━━━━━━━━━━━**
-**- Type: {}
+- Type: {}
 
 - Score: 🌟{}
 
@@ -207,9 +206,11 @@ atext = """
 - Rating: {}
 
 - Tags: {}
+
+- Rank: {} | Popularity: {}
 """
 
-async def get_anilist_data(name):
+async def get_anilist_data(title):
     malurl = f"https://api.jikan.moe/v4/anime?q={name}"
     malresponse = requests.get(malurl)
     maldata = malresponse.json()
@@ -224,7 +225,6 @@ async def get_anilist_data(name):
     duration = data.get("duration")
     trailer = data.get("trailer")
     genres = data.get("genres")
-    studio = data.get("studios")
     averageScore = data.get("averageScore")
     img = f"https://img.anili.st/media/{id_}"
 
@@ -321,37 +321,46 @@ async def get_anilist_data(name):
     tagsx = tagsx.replace("#Tanned Skin", "#Tanned_Skin")
     tagsx = tagsx.replace("#Video Games", "#Video_Games")
     if data and "data" in maldata and len(maldata["data"]) > 0:
-        mal = maldata["data"][0]
-        producer = []
-        for i in mal['producers']:
-            producer.append(i["name"])
-        producer = ", ".join(producer)
-        theme = []
-        for i in mal['themes']:
-              theme.append(i["name"])
-        theme = ", ".join(theme)
-        season = f"{mal['season']} {mal['year']}"
-        rating = mal['rating']
-        aired = mal['aired']['string']
-                                
-    caption = atext.format(
+      mal = maldata["data"][0]
+      producer = []
+      for i in mal['producers']:
+        producer.append(i["name"])
+      producer = ", ".join(producer)
+      licensor = []
+      for i in mal['licensors']:
+        licensor.append(i["name"])
+      licensor = ", ".join(licensor)
+      theme = []
+      for i in mal['themes']:
+        theme.append(i["name"])
+      theme = ", ".join(theme)
+      season = f"{mal['season']} {mal['year']}"
+      rating = mal['rating']
+      aired = mal['aired']['string']
+      malink = mal['url']
+      malrank = mal['rank']
+      malpopularity = mal['popularity']
+      
+      caption = atext.format(
       title1,
       title2,
       form,
-
       averageScore,
       episodes,
-      source,
-      genre,
-      studiox,
+      status,
       aired,
       season,
       producer,
+      licensor,
+      studiox,
+      source,   
+      genre,
       theme,
-      status,      
-      duration, 
+      duration,
       rating,
-      tagsx
+      tagsx,
+      malrank,
+      malpopularity
     )
 
     if trailer != None:
@@ -361,12 +370,12 @@ async def get_anilist_data(name):
       site = None
 
     if site == "youtube":
-      caption += f"**• [Trailer](https://www.youtube.com/watch?v={ytid})  |  [More Info](https://anilist.co/anime/{id_})\n ━━━━━━━━━━━━━━━━━━━━━━\n@Latest_ongoing_airing_anime**"
+      caption += f"\n- Links: [Trailer](https://www.youtube.com/watch?v={ytid}) | [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n ━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
     else:
-      caption += f"**• [More Info](https://anilist.co/anime/{id_})\n━━━━━━━━━━━━━━━━━━━━━━\n@Latest_ongoing_airing_anime**"
+      caption += f"\n- Links: [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
 
     return img, caption
-
+                                
 @app.on_message(filters.command("anilist"))
 async def handle_message(client, message):
     name = " ".join(message.command[1:])
@@ -437,10 +446,11 @@ async def get_anime_info(anime_name):
 @app.on_message(filters.command("ani"))
 async def anime_command_handler(client, message):
     # Get the anime name from the command arguments
-    anime_name = " ".join(message.command[1:])
+    title = " ".join(message.command[1:])
 
     # Get anime info from AniList
-    anime_info = await get_anime_info(anime_name)
+    img, caption = await get_anilist_data(title)
+    main = await app.reply_photo(photo=img,caption=caption)
 
     # Format the anime info into a string
     info_string = f"Title: {anime_info['title']['romaji']}\n"
@@ -461,7 +471,7 @@ async def anime_command_handler(client, message):
     info_string += f"Producers: {', '.join(producer['name'] for producer in anime_info['producers']['nodes'])}\n"
 
     # Send the anime info as a reply
-    await message.reply_text(info_string)
+
 app.start()
 print("Powered by @animxt")
 idle()
