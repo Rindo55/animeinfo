@@ -5,6 +5,7 @@ from jikanpy import Jikan
 import signal
 import sys
 import aiohttp
+from telegraph_poster import TelegraphPoster
 import requests
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
@@ -153,7 +154,25 @@ async def get_anime(vars_,less):
           return idm, title_img, tit
 
         return data
-
+def synopsis_desu(synopsis):
+    
+    # Initialize TelegraphPoster
+    client = TelegraphPoster(use_api=True)
+    client.create_api_token("golumpa")
+    
+    # Get the first name and username of the bot
+    me = await app.get_me()
+    first_name = me.first_name
+    username = me.username
+    
+    # Create a telegraph page
+    page = client.post(
+        title="Synopsis",
+        author=first_name,
+        author_url=f"https://t.me/{username}",
+        text=out,
+    )
+    return page["url"]
 async def get_anime_img(query):
     vars_ = {"search": query}
     idm, title_img, title = await get_anime(vars_,less=True)
@@ -208,8 +227,9 @@ atext = """
 - Tags: {}
 
 - Rank: {} | Popularity: {}
-"""
 
+- Synopsis: {}
+"""
 async def get_anilist_data(title):
     malurl = f"https://api.jikan.moe/v4/anime?q={title}"
     malresponse = requests.get(malurl)
@@ -337,7 +357,7 @@ async def get_anilist_data(title):
         
       theme = []
       for i in mal['themes']:
-        theme.append(i["name"])
+          theme.append(i["name"])
       theme = ", ".join(theme)
       season = f"{mal['season']} {mal['year']}"
       rating = mal['rating']
@@ -345,7 +365,8 @@ async def get_anilist_data(title):
       malink = mal['url']
       malrank = mal['rank']
       malpopularity = mal['popularity']
-      
+    synopsis = mal["synopsis"]   
+    synopsisx = await synopsis_desu(synopsis)
       caption = atext.format(
       title2,
       title1,
@@ -365,8 +386,10 @@ async def get_anilist_data(title):
       rating,
       tagsx,
       malrank,
-      malpopularity
+      malpopularity,
+      synopsisx
     )
+
 
     if trailer != None:
       ytid = trailer.get("id")
