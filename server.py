@@ -364,7 +364,7 @@ async def get_anilist_data(title):
     ges = f"https://api.telegra.ph/createPage?access_token=d3b25feccb89e508a9114afb82aa421fe2a9712b963b387cc5ad71e58722&title=Synopsis&author_name=AnimeArchivist&content={synx}&return_content=true"
     req = requests.get(ges)
     rem = req.json()
-    syn = rem['result']['url]
+    syn = rem['result']['url']
     caption = atext.format(
       title2,
       title1,
