@@ -3,4 +3,4 @@ lxml
 requests
 jikanpy
 pyrogram
-telegraph_poster
+git+https://github.com/kaif-00z/html-telegraph-poster
