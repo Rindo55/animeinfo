@@ -360,8 +360,8 @@ async def get_anilist_data(title):
       malrank = mal['rank']
       malpopularity = mal['popularity']
     synopsis = mal["synopsis"]
-    ges = f"""https://api.telegra.ph/createPage?access_token=d3b25feccb89e508a9114afb82aa421fe2a9712b963b387cc5ad71e58722&title=Synopsis&author_name=Anime%20Archivist&content=[{synopsis}]&return_content=true"""
-    req = requests.post()
+    ges = f"https://api.telegra.ph/createPage?access_token=d3b25feccb89e508a9114afb82aa421fe2a9712b963b387cc5ad71e58722&title=Synopsis&author_name=Anime%20Archivist&content=[{synopsis}]&return_content=true"
+    req = requests.post(ges)
     rem = req.json()
     syn = rem["result"]["url"]
     caption = atext.format(
