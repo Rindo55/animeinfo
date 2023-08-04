@@ -161,15 +161,12 @@ def synopsis_desu(synopsis):
     client.create_api_token("golumpa")
     
     # Get the first name and username of the bot
-    me = await app.get_me()
-    first_name = me.first_name
-    username = me.username
     
     # Create a telegraph page
     page = client.post(
         title="Synopsis",
-        author=first_name,
-        author_url=f"https://t.me/{username}",
+        author="MAL",
+        author_url="https://myanimelist.net",
         text=out,
     )
     return page["url"]
