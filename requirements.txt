@@ -3,3 +3,4 @@ lxml
 requests
 jikanpy
 pyrogram
+telegraph_poster
