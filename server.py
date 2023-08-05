@@ -418,13 +418,13 @@ async def get_anilist_data(title):
       site = None
 
     if site == "youtube":
-      caption += f"\n - [Synopsis]({syn})\n\n- Links: [Trailer](https://www.youtube.com/watch?v={ytid}) | [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n ━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
+      caption += f"\n - [Synopsis]({syn})  |  [Trailer](https://www.youtube.com/watch?v={ytid})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})\n ━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
     else:
-      caption += f"\n - [Synopsis]({syn})\n\n- Links: [AniList](https://anilist.co/anime/{id_}) | [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
+      caption += f"\n - [Synopsis]({syn})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
 
     return img, caption
                                 
-@app.on_message(filters.command("anilist"))
+@app.on_message(filters.command("anime"))
 async def handle_message(client, message):
     name = " ".join(message.command[1:])
     result = await get_anilist_data(name)
