@@ -366,7 +366,7 @@ async def get_anilist_data(title):
         licensor.append(i["name"])
       licensor = ", ".join(licensor)
       if licensor=="":
-          licensor=licensore.replace("", "Unknown")
+          licensor=licensor.replace("", "Unknown")
         
       theme = []
       for i in mal['themes']:
@@ -382,10 +382,10 @@ async def get_anilist_data(title):
     client = TelegraphPoster(use_api=True)
     client.create_api_token("synpsis")
     page = client.post(
-        title="Synopsis",
+        title=title1,
         author="MAL",
         author_url=f"https://t.me/animearchivex",
-        text=synopsi,
+        text=f"<blockquote>Synopsis</blockquote>\n{synopsi}",
     )
     syn = page["url"]
     caption = atext.format(
