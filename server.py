@@ -380,14 +380,14 @@ async def get_anilist_data(title):
       malrank = mal['rank']
       malpopularity = mal['popularity']
       synopsi = mal['synopsis']
-    
+      synopsi = synopsi.replace("[Written by MAL Rewrite]", "")
     client = TelegraphPoster(use_api=True)
     client.create_api_token("synpsis")
     page = client.post(
         title=title1,
         author="MAL",
-        author_url=f"https://t.me/animearchivex",
-        text=f"<figure>upload_image({img})</figure><h4>Synopsis</h4>\n{synopsi}",             
+        author_url=f"https://myanimelist.net",
+        text=f"<h4>Synopsis</h4>\n{synopsi}",             
     )
     syn = page["url"]
     caption = atext.format(
@@ -433,7 +433,11 @@ async def handle_message(client, message):
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
 
-
+@app.on_message(filters.command("random"))
+async def handle_message(client, message):  
+    sax = "https://pic.re/image"
+    return await client.send_photo(message.chat.id,photo=sax)
+    
 async def get_anime_info(anime_name):
     query = '''
     query ($anime_name: String) {
