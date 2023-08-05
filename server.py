@@ -379,14 +379,14 @@ async def get_anilist_data(title):
       malrank = mal['rank']
       malpopularity = mal['popularity']
       synopsi = mal['synopsis']
+    saki = upload_image(img)
     client = TelegraphPoster(use_api=True)
     client.create_api_token("synpsis")
     page = client.post(
         title=title1,
         author="MAL",
         author_url=f"https://t.me/animearchivex",
-        text=f"<h3>Synopsis</h3>\n{synopsi}", 
-        upload_image(img)    
+        text=f"<figure>{saki}</figure><h3>Synopsis</h3>\n{synopsi}",             
     )
     syn = page["url"]
     caption = atext.format(
