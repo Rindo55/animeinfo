@@ -1,5 +1,6 @@
 from pyrogram import Client, idle, filters
 import asyncio
+from html_telegraph_poster.upload_images import upload_image
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from jikanpy import Jikan
 import signal
@@ -382,7 +383,7 @@ async def get_anilist_data(title):
     
     client = TelegraphPoster(use_api=True)
     client.create_api_token("synpsis")
-    saki = client.upload_image(img)
+    saki = upload_image(img)
     page = client.post(
         title=title1,
         author="MAL",
