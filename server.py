@@ -385,7 +385,7 @@ async def get_anilist_data(title):
         title=title1,
         author="MAL",
         author_url=f"https://t.me/animearchivex",
-        text=f"<blockquote>Synopsis</blockquote>\n{synopsi}",
+        text=f"<h3>Synopsis</h3>\n{synopsi}",
     )
     syn = page["url"]
     caption = atext.format(
