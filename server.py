@@ -383,12 +383,11 @@ async def get_anilist_data(title):
     
     client = TelegraphPoster(use_api=True)
     client.create_api_token("synpsis")
-    saki = upload_image(img)
     page = client.post(
         title=title1,
         author="MAL",
         author_url=f"https://t.me/animearchivex",
-        text=f"<figure>{saki}</figure><h3>Synopsis</h3>\n{synopsi}",             
+        text=f"<figure>upload_image({img})</figure><h4>Synopsis</h4>\n{synopsi}",             
     )
     syn = page["url"]
     caption = atext.format(
