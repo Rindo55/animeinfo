@@ -5,6 +5,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 from jikanpy import Jikan
 import signal
 import sys
+import random
 import aiohttp
 import requests
 from html_telegraph_poster import TelegraphPoster
@@ -435,7 +436,8 @@ async def handle_message(client, message):
 
 @app.on_message(filters.command("random"))
 async def handle_message(client, message):  
-    sax = "https://pic.re/image"
+    rnx = random.randrange(0,1000)
+    sax = f"https://pic.re/image/{rnx}"
     return await client.send_photo(message.chat.id,photo=sax)
     
 async def get_anime_info(anime_name):
