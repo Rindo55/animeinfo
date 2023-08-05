@@ -383,7 +383,7 @@ async def get_anilist_data(title):
     client.create_api_token("synpsis")
     page = client.post(
         title="Synopsis",
-        author="Natsu",
+        author="MAL",
         author_url=f"https://t.me/animearchivex",
         text=synopsi,
     )
@@ -424,7 +424,7 @@ async def get_anilist_data(title):
 
     return img, caption
                                 
-@app.on_message(filters.command("anime"))
+@app.on_message(filters.command("anilist"))
 async def handle_message(client, message):
     name = " ".join(message.command[1:])
     result = await get_anilist_data(name)
