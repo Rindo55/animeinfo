@@ -379,9 +379,10 @@ async def get_anilist_data(title):
       malrank = mal['rank']
       malpopularity = mal['popularity']
       synopsi = mal['synopsis']
-    saki = upload_image(img)
+    
     client = TelegraphPoster(use_api=True)
     client.create_api_token("synpsis")
+    saki = client.upload_image(img)
     page = client.post(
         title=title1,
         author="MAL",
