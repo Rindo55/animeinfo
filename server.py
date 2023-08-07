@@ -447,8 +447,11 @@ async def handle_message(client, message):
     bing = " ".join(message.command[1:])
     sux = f"https://api.safone.me/imagine?text={bing}"
     response = requests.get(sux)
-    image_data = response.content
-    return await client.send_photo(message.chat.id,photo=image_data)
+    pho = response['image']
+    b64dec = base64.b64decode(pho)
+    with open('image.jpg', 'wb') as file:
+        file.write(b64dec)
+    return await client.send_photo(message.chat.id,photo=file)
     
     
 async def get_anime_info(anime_name):
