@@ -444,7 +444,7 @@ async def handle_message(client, message):
 
 @app.on_message(filters.command("imagine"))
 async def handle_message(client, message):
-    taku = await client.reply("Imagining...")
+    taku = await client.reply_text("Imagining...")
     bing = " ".join(message.command[1:])
     sux = f"https://api.safone.me/imagine?text={bing}"
     responsez = requests.get(sux)
