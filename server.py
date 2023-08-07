@@ -8,6 +8,7 @@ import sys
 import random
 import base64
 import aiohttp
+from PIL import Image
 import requests
 from html_telegraph_poster import TelegraphPoster
 api_id = 3845818
@@ -445,10 +446,9 @@ async def handle_message(client, message):
 async def handle_message(client, message):  
     bing = " ".join(message.command[1:])
     sux = f"https://api.safone.me/imagine?text={bing}"
-    sfu = requests.get(sux)
-    image_data = sfu["image"][0].json()
-    image_bytes = base64.b64decode(image_data)
-    return await client.send_photo(message.chat.id,photo=image_bytes)
+    response = requests.get(sux)
+    image_data = response.content
+    return await client.send_photo(message.chat.id,photo=image_data)
     
     
 async def get_anime_info(anime_name):
