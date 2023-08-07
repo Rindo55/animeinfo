@@ -6,6 +6,7 @@ from jikanpy import Jikan
 import signal
 import sys
 import random
+import base64
 import aiohttp
 import requests
 from html_telegraph_poster import TelegraphPoster
@@ -439,6 +440,16 @@ async def handle_message(client, message):
     rnx = random.randrange(0,1000)
     sax = f"https://pic.re/image/{rnx}"
     return await client.send_photo(message.chat.id,photo=sax)
+
+@app.on_message(filters.command("imagine"))
+async def handle_message(client, message):  
+    bing = " ".join(message.command[1:])
+    sux = f"https://api.safone.me/imagine?text={bing}"
+    sfu = requests.get(sux)
+    image_data = sfu["image"][0]
+    image_bytes = base64.b64decode(image_data)
+    return await client.send_photo(message.chat.id,photo=image_bytes)
+    
     
 async def get_anime_info(anime_name):
     query = '''
