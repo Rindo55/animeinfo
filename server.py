@@ -449,7 +449,7 @@ async def handle_message(client, message):
     responsez = requests.get(sux)
     fuk = responsez.json()
     pho = fuk['image']
-    sdf = f"{''.join(sdf)}"
+    sdf = f"{''.join(pho)}"
     print(sdf)
     b64dec = base64.b64decode(sdf)
     with open('image.jpg', 'wb') as file:
