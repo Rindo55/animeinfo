@@ -449,8 +449,9 @@ async def handle_message(client, message):
     responsez = requests.get(sux)
     fuk = responsez.json()
     pho = fuk['image']
-    print(pho)
-    b64dec = base64.b64decode(pho)
+    sdf = f"{''.join(sdf)}"
+    print(sdf)
+    b64dec = base64.b64decode(sdf)
     with open('image.jpg', 'wb') as file:
         file.write(b64dec)
     return await client.send_photo(message.chat.id,photo=file)
