@@ -446,7 +446,7 @@ async def handle_message(client, message):
     bing = " ".join(message.command[1:])
     sux = f"https://api.safone.me/imagine?text={bing}"
     sfu = requests.get(sux)
-    image_data = sfu["image"][0]
+    image_data = sfu["image"][0].json()
     image_bytes = base64.b64decode(image_data)
     return await client.send_photo(message.chat.id,photo=image_bytes)
     
