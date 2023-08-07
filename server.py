@@ -443,18 +443,18 @@ async def handle_message(client, message):
     return await client.send_photo(message.chat.id,photo=sax)
 
 @app.on_message(filters.command("imagine"))
-async def handle_message(client, message):  
+async def handle_message(client, message):
     bing = " ".join(message.command[1:])
     sux = f"https://api.safone.me/imagine?text={bing}"
-    responsez = requests.get(sux)
-    fuk = responsez.json()
+    responsez = await client.get(sux)
+    fuk = await responsez.json()
     pho = fuk['image']
-    sdf = f"{''.join(pho)}"
-    print(sdf)
+    sdf = ''.join(pho)
     b64dec = base64.b64decode(sdf)
     with open('image.jpg', 'wb') as file:
         file.write(b64dec)
-    return await client.send_photo(message.chat.id,photo=file)
+    with open('image.jpg', 'rb') as file:
+        await client.send_photo(message.chat.id, photo=file)
     
     
 async def get_anime_info(anime_name):
