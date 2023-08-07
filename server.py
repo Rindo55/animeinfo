@@ -446,8 +446,8 @@ async def handle_message(client, message):
 async def handle_message(client, message):
     bing = " ".join(message.command[1:])
     sux = f"https://api.safone.me/imagine?text={bing}"
-    responsez = await client.get(sux)
-    fuk = await responsez.json()
+    responsez = requests.get(sux)
+    fuk = responsez.json()
     pho = fuk['image']
     sdf = ''.join(pho)
     b64dec = base64.b64decode(sdf)
