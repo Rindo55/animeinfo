@@ -451,18 +451,21 @@ async def handle_message(client, message):
     fuk = responsez.json()
     
     pho_list = fuk['image']  # Get the list of images directly
+    media_group = []
     
     for idx, pho in enumerate(pho_list):
         sdf = ''.join(pho)
         b64dec = base64.b64decode(sdf)
-        with open(f'image{idx}.jpg', 'wb') as file:
+        filename = f'image{idx}.jpg'
+        with open(filename, 'wb') as file:
             file.write(b64dec)
+        media_group.append({"type": "photo", "media": filename})
     
     await message.reply_media_group(
-        [f'image{idx}.jpg' for idx in range(len(pho_list))],  # Send all images as a media group
+        media_group,
         reply_to_message_id=message.id
     )
-    await taku.delete()
+    await taku.delete(
     
 async def get_anime_info(anime_name):
     query = '''
