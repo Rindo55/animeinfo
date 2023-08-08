@@ -447,7 +447,7 @@ async def handle_message(client, message):
     global processing
     
     if processing:
-        await message.reply_text("Already one process is ongoing, please wait till it's over.")
+        tk = await message.reply_text("Your request is in queue.")
         await command_queue.put(message)
     else:
         await command_queue.put(message)
@@ -459,10 +459,7 @@ async def process_queue():
     while not command_queue.empty():
         processing = True
         next_command = await command_queue.get()
-        
-        # Delete the queue message
-        await next_command.delete()
-        
+        await tk.delete()
         taku = await next_command.reply_text("Imagining...")
         
         bing = " ".join(next_command.command[1:])
