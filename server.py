@@ -465,7 +465,7 @@ async def handle_message(client, message):
         media_group,
         reply_to_message_id=message.id
     )
-    await taku.delete(
+    await taku.delete()
     
 async def get_anime_info(anime_name):
     query = '''
