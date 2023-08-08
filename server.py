@@ -439,53 +439,68 @@ async def handle_message(client, message):
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
 
-user_last_command = {}
+command_queue = asyncio.Queue()
+processing = False  # Flag to indicate if a process is ongoing
+
 @app.on_message(filters.command("imagine"))
 async def handle_message(client, message):
-    user_id = message.from_user.id
+    global processing
     
-    # Check if the user is within the timeout period
-    if user_id in user_last_command and time.time() - user_last_command[user_id] < 30:
-        await message.reply_text("You're on timeout. Please wait before using the command again.")
-        return
+    if processing:
+        await message.reply_text("Already one process is ongoing, please wait till it's over.")
+        await command_queue.put(message)
+    else:
+        await command_queue.put(message)
+        await process_queue()
+
+async def process_queue():
+    global processing
     
-    taku = await message.reply_text("Imagining...")
-    bing = " ".join(message.command[1:])
-    sux = f"https://api.safone.me/imagine?text={bing}"
-    responsez = requests.get(sux)
-    fuk = responsez.json()
-    
-    pho_list = fuk['image']  # Get the list of images directly
-    
-    media_group = []
-    temp_files = []  # To keep track of temporary files
-    
-    for idx, pho in enumerate(pho_list):
-        sdf = ''.join(pho)
-        b64dec = base64.b64decode(sdf)
+    while not command_queue.empty():
+        processing = True
+        next_command = await command_queue.get()
         
-        # Create a temporary file to hold the image data
-        temp_filename = f"image{idx}.jpg"
-        temp_files.append(temp_filename)
+        taku = await next_command.reply_text("Imagining...")
         
-        with open(temp_filename, 'wb') as file:
-            file.write(b64dec)
+        bing = " ".join(next_command.command[1:])
+        sux = f"https://api.safone.me/imagine?text={bing}"
+        responsez = requests.get(sux)
+        fuk = responsez.json()
         
-        media_group.append(InputMediaPhoto(media=temp_filename, caption=f"Caption for image {idx + 1}"))
-    
-    await message.reply_media_group(
-        media=media_group,
-        reply_to_message_id=message.id
-    )
-    
-    # Clean up temporary files
-    for temp_file in temp_files:
-        os.remove(temp_file)
-    
-    await taku.delete()
-    
-    # Update the user's last command time
-    user_last_command[user_id] = time.time()
+        pho_list = fuk['image']  # Get the list of images directly
+        
+        media_group = []
+        temp_files = []  # To keep track of temporary files
+        
+        for idx, pho in enumerate(pho_list):
+            sdf = ''.join(pho)
+            b64dec = base64.b64decode(sdf)
+            
+            # Create a temporary file to hold the image data
+            temp_filename = f"image{idx}.jpg"
+            temp_files.append(temp_filename)
+            
+            with open(temp_filename, 'wb') as file:
+                file.write(b64dec)
+            
+            media_group.append(InputMediaPhoto(media=temp_filename, caption=f"Caption for image {idx + 1}"))
+        
+        await next_command.reply_media_group(
+            media=media_group,
+            reply_to_message_id=next_command.id
+        )
+        
+        # Clean up temporary files
+        for temp_file in temp_files:
+            os.remove(temp_file)
+        
+        await taku.delete()
+        
+        processing = False
+
+@app.on_message(filters.private)
+async def handle_private_message(client, message):
+    await process_queue()
     
 async def get_anime_info(anime_name):
     query = '''
