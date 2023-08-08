@@ -454,21 +454,30 @@ async def handle_message(client, message):
     pho_list = fuk['image']  # Get the list of images directly
     
     media_group = []
+    temp_files = []  # To keep track of temporary files
     
     for idx, pho in enumerate(pho_list):
         sdf = ''.join(pho)
         b64dec = base64.b64decode(sdf)
         
-        # Create a BytesIO object to hold the image data
-        image_buffer = BytesIO(b64dec)
-        image_buffer.name = f'image{idx}.jpg'
+        # Create a temporary file to hold the image data
+        temp_filename = f"image{idx}.jpg"
+        temp_files.append(temp_filename)
         
-        media_group.append(image_buffer)
+        with open(temp_filename, 'wb') as file:
+            file.write(b64dec)
+        
+        media_group.append({"type": "photo", "media": temp_filename})
     
     await message.reply_media_group(
         media_group,
         reply_to_message_id=message.id
     )
+    
+    # Clean up temporary files
+    for temp_file in temp_files:
+        os.remove(temp_file)
+    
     await taku.delete()
     
 async def get_anime_info(anime_name):
