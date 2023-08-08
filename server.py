@@ -449,33 +449,20 @@ async def handle_message(client, message):
     sux = f"https://api.safone.me/imagine?text={bing}"
     responsez = requests.get(sux)
     fuk = responsez.json()
-    pho = fuk['image'][0]
-    sdf = ''.join(pho)
-    pho2 = fuk['image'][1]
-    sdf2 = ''.join(pho2)
-    pho3 = fuk['image'][2]
-    sdf3 = ''.join(pho3)
-    pho4 = fuk['image'][3]
-    sdf4 = ''.join(pho4)
-    b64dec = base64.b64decode(sdf)
-    b64dec2 = base64.b64decode(sdf2)
-    b64dec3 = base64.b64decode(sdf3)
-    b64dec4 = base64.b64decode(sdf4)
-    with open('image.jpg', 'wb') as file:
-        file.write(b64dec)
-    with open('image.jpg', 'rb') as file:
-    with open('image1.jpg', 'wb') as file:
-        file.write(b64dec2)
-    with open('image2.jpg', 'rb') as file:
-    with open('image3.jpg', 'wb') as file:
-        file.write(b64dec3)
-    with open('image4.jpg', 'rb') as file:
-    with open('image1.jpg', 'wb') as file:
-        file.write(b64dec4)
-    with open('image4.jpg', 'rb') as file:
-        await message.reply_photo(file)
-        await taku.delete()
     
+    pho_list = fuk['image']  # Get the list of images directly
+    
+    for idx, pho in enumerate(pho_list):
+        sdf = ''.join(pho)
+        b64dec = base64.b64decode(sdf)
+        with open(f'image{idx}.jpg', 'wb') as file:
+            file.write(b64dec)
+    
+    await message.reply_media_group(
+        [f'image{idx}.jpg' for idx in range(len(pho_list))],  # Send all images as a media group
+        reply_to_message_id=message.message_id
+    )
+    await taku.delete()
     
 async def get_anime_info(anime_name):
     query = '''
