@@ -1,7 +1,7 @@
 from pyrogram import Client, idle, filters
 import asyncio
 from html_telegraph_poster.upload_images import upload_image
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto
 from jikanpy import Jikan
 import signal
 from io import BytesIO
