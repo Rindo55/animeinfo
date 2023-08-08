@@ -16,7 +16,7 @@ import requests
 from html_telegraph_poster import TelegraphPoster
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
-bot_token = "5222572158:AAENHtTOnhWBh4UUZKTjq5ruMtil_4zRA_0"
+bot_token = "5200557461:AAFEDzZfrTQv-kKtRog3W2LWhe3i6M4_1oM"
 app = Client("anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 def get_anime_info(anime_title):
     url = f"https://api.jikan.moe/v4/anime?q={anime_title}"
