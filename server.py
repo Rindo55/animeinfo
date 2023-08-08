@@ -4,6 +4,7 @@ from html_telegraph_poster.upload_images import upload_image
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from jikanpy import Jikan
 import signal
+from io import BytesIO
 import sys
 import random
 import base64
@@ -451,15 +452,18 @@ async def handle_message(client, message):
     fuk = responsez.json()
     
     pho_list = fuk['image']  # Get the list of images directly
+    
     media_group = []
     
     for idx, pho in enumerate(pho_list):
         sdf = ''.join(pho)
         b64dec = base64.b64decode(sdf)
-        filename = f'image{idx}.jpg'
-        with open(filename, 'wb') as file:
-            file.write(b64dec)
-        media_group.append({"type": "photo", "media": filename})
+        
+        # Create a BytesIO object to hold the image data
+        image_buffer = BytesIO(b64dec)
+        image_buffer.name = f'image{idx}.jpg'
+        
+        media_group.append(image_buffer)
     
     await message.reply_media_group(
         media_group,
