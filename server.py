@@ -453,7 +453,6 @@ async def handle_message(client, message):
     else:
         await command_queue.put(message)
         await process_queue()
-        await tk.delete()
 
 async def process_queue():
     global processing
