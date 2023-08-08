@@ -439,6 +439,7 @@ async def handle_message(client, message):
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
 
+user_last_command = {}
 @app.on_message(filters.command("imagine"))
 async def handle_message(client, message):
     user_id = message.from_user.id
