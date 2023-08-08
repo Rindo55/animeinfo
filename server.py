@@ -464,7 +464,7 @@ async def process_queue():
         taku = await next_command.reply_text("Imagining...")
         
         bing = " ".join(next_command.command[1:])
-        sux = f"https://api.safone.me/imagine?text={bing}&version=2"
+        sux = f"https://api.safone.me/imagine?text={bing}&version=3"
         responsez = requests.get(sux)
         fuk = responsez.json()
         
