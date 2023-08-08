@@ -462,12 +462,11 @@ async def process_queue():
         
         # Delete the queue message
         await next_command.delete()
-        next_command = await command_queue.get()
         
         taku = await next_command.reply_text("Imagining...")
         
         bing = " ".join(next_command.command[1:])
-        sux = f"https://api.safone.me/imagine?text={bing}&version=3"
+        sux = f"https://api.safone.me/imagine?text={bing}&version=2"
         responsez = requests.get(sux)
         fuk = responsez.json()
         
