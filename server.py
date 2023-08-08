@@ -449,6 +449,7 @@ async def handle_message(client, message):
     if processing:
         tk = await message.reply_text("Your request is in queue.")
         await command_queue.put(message)
+        await tk.delete()
     else:
         await command_queue.put(message)
         await process_queue()
