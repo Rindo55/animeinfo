@@ -447,7 +447,7 @@ async def handle_message(client, message):
     global processing
     
     if processing:
-        await message.reply_text("Already one process is ongoing, please wait till it's over.")
+        ty = await message.reply_text("Already one process is ongoing, please wait till it's over.")
         await command_queue.put(message)
     else:
         await command_queue.put(message)
@@ -458,6 +458,10 @@ async def process_queue():
     
     while not command_queue.empty():
         processing = True
+        next_command = await command_queue.get()
+        
+        # Delete the queue message
+        await next_command.delete()
         next_command = await command_queue.get()
         
         taku = await next_command.reply_text("Imagining...")
@@ -501,7 +505,142 @@ async def process_queue():
 @app.on_message(filters.private)
 async def handle_private_message(client, message):
     await process_queue()
+
+# netx version
+command_queue = asyncio.Queue()
+processing = False  # Flag to indicate if a process is ongoing
+
+@app.on_message(filters.command("visualize"))
+async def handle_message(client, message):
+    global processing
     
+    if processing:
+        ty = await message.reply_text("Already one process is ongoing, please wait till it's over.")
+        await command_queue.put(message)
+    else:
+        await command_queue.put(message)
+        await process_queue()
+
+async def process_queue():
+    global processing
+    
+    while not command_queue.empty():
+        processing = True
+        next_command = await command_queue.get()
+        
+        # Delete the queue message
+        await next_command.delete()
+        next_command = await command_queue.get()
+        
+        taku = await next_command.reply_text("Imagining...")
+        
+        bing = " ".join(next_command.command[1:])
+        sux = f"https://api.safone.me/imagine?text={bing}&version=2"
+        responsez = requests.get(sux)
+        fuk = responsez.json()
+        
+        pho_list = fuk['image']  # Get the list of images directly
+        
+        media_group = []
+        temp_files = []  # To keep track of temporary files
+        
+        for idx, pho in enumerate(pho_list):
+            sdf = ''.join(pho)
+            b64dec = base64.b64decode(sdf)
+            
+            # Create a temporary file to hold the image data
+            temp_filename = f"image{idx}.jpg"
+            temp_files.append(temp_filename)
+            
+            with open(temp_filename, 'wb') as file:
+                file.write(b64dec)
+            
+            media_group.append(InputMediaPhoto(media=temp_filename, caption=f"Caption for image {idx + 1}"))
+        
+        await next_command.reply_media_group(
+            media=media_group,
+            reply_to_message_id=next_command.id
+        )
+        
+        # Clean up temporary files
+        for temp_file in temp_files:
+            os.remove(temp_file)
+        
+        await taku.delete()
+        
+        processing = False
+
+@app.on_message(filters.private)
+async def handle_private_message(client, message):
+    await process_queue()
+
+# netx version
+command_queue = asyncio.Queue()
+processing = False  # Flag to indicate if a process is ongoing
+
+@app.on_message(filters.command("think"))
+async def handle_message(client, message):
+    global processing
+    
+    if processing:
+        ty = await message.reply_text("Already one process is ongoing, please wait till it's over.")
+        await command_queue.put(message)
+    else:
+        await command_queue.put(message)
+        await process_queue()
+
+async def process_queue():
+    global processing
+    
+    while not command_queue.empty():
+        processing = True
+        next_command = await command_queue.get()
+        
+        # Delete the queue message
+        await next_command.delete()
+        next_command = await command_queue.get()
+        
+        taku = await next_command.reply_text("Imagining...")
+        
+        bing = " ".join(next_command.command[1:])
+        sux = f"https://api.safone.me/imagine?text={bing}&version=3"
+        responsez = requests.get(sux)
+        fuk = responsez.json()
+        
+        pho_list = fuk['image']  # Get the list of images directly
+        
+        media_group = []
+        temp_files = []  # To keep track of temporary files
+        
+        for idx, pho in enumerate(pho_list):
+            sdf = ''.join(pho)
+            b64dec = base64.b64decode(sdf)
+            
+            # Create a temporary file to hold the image data
+            temp_filename = f"image{idx}.jpg"
+            temp_files.append(temp_filename)
+            
+            with open(temp_filename, 'wb') as file:
+                file.write(b64dec)
+            
+            media_group.append(InputMediaPhoto(media=temp_filename, caption=f"Caption for image {idx + 1}"))
+        
+        await next_command.reply_media_group(
+            media=media_group,
+            reply_to_message_id=next_command.id
+        )
+        
+        # Clean up temporary files
+        for temp_file in temp_files:
+            os.remove(temp_file)
+        
+        await taku.delete()
+        
+        processing = False
+
+@app.on_message(filters.private)
+async def handle_private_message(client, message):
+    await process_queue()
 async def get_anime_info(anime_name):
     query = '''
     query ($anime_name: String) {
