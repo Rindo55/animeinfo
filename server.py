@@ -467,10 +467,10 @@ async def handle_message(client, message):
         with open(temp_filename, 'wb') as file:
             file.write(b64dec)
         
-        media_group.append({"type": "photo", "media": temp_filename})
+        media_group.append(InputMediaPhoto(media=temp_filename, caption=f"Caption for image {idx + 1}"))
     
     await message.reply_media_group(
-        media_group,
+        media=media_group,
         reply_to_message_id=message.id
     )
     
