@@ -1,4 +1,5 @@
 from pyrogram import Client, idle, filters
+import time
 import os
 import asyncio
 from html_telegraph_poster.upload_images import upload_image
@@ -438,17 +439,18 @@ async def handle_message(client, message):
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
 
-@app.on_message(filters.command("random"))
-async def handle_message(client, message):  
-    rnx = random.randrange(0,1000)
-    sax = f"https://pic.re/image/{rnx}"
-    return await client.send_photo(message.chat.id,photo=sax)
-
 @app.on_message(filters.command("imagine"))
 async def handle_message(client, message):
+    user_id = message.from_user.id
+    
+    # Check if the user is within the timeout period
+    if user_id in user_last_command and time.time() - user_last_command[user_id] < 30:
+        await message.reply_text("You're on timeout. Please wait before using the command again.")
+        return
+    
     taku = await message.reply_text("Imagining...")
     bing = " ".join(message.command[1:])
-    sux = f"https://api.safone.me/imagine?text={bing}&version=2"
+    sux = f"https://api.safone.me/imagine?text={bing}"
     responsez = requests.get(sux)
     fuk = responsez.json()
     
@@ -480,6 +482,9 @@ async def handle_message(client, message):
         os.remove(temp_file)
     
     await taku.delete()
+    
+    # Update the user's last command time
+    user_last_command[user_id] = time.time()
     
 async def get_anime_info(anime_name):
     query = '''
