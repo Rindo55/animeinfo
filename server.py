@@ -460,7 +460,7 @@ async def handle_message(client, message):
     
     await message.reply_media_group(
         [f'image{idx}.jpg' for idx in range(len(pho_list))],  # Send all images as a media group
-        reply_to_message_id=message.message_id
+        reply_to_message_id=message.id
     )
     await taku.delete()
     
