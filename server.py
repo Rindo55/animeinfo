@@ -1,4 +1,5 @@
 from pyrogram import Client, idle, filters
+import os
 import asyncio
 from html_telegraph_poster.upload_images import upload_image
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto
@@ -447,7 +448,7 @@ async def handle_message(client, message):
 async def handle_message(client, message):
     taku = await message.reply_text("Imagining...")
     bing = " ".join(message.command[1:])
-    sux = f"https://api.safone.me/imagine?text={bing}"
+    sux = f"https://api.safone.me/imagine?text={bing}&version=2"
     responsez = requests.get(sux)
     fuk = responsez.json()
     
