@@ -474,7 +474,7 @@ async def handle_message(client, message):
     else:
         await app.send_message(
             chat_id=KAYO_ID,
-            text=responsex.status_code,
+            text="Temporarily unavailable due to high traffic, please try again later.",
             reply_to_message_id=topic_id
         )
         
@@ -486,8 +486,9 @@ async def handle_message(client, message):
     topz = message.reply_to_message_id
     if topz==2:
         API_URLz = "https://api.safone.me/chatgpt"
+        boom = message.text
         payload = {
-            "message": qry,
+            "message": boom,
             "version": 3,
             "chat_mode": "assistant",
             "dialog_messages": '[{"bot":"","user":""}]'
@@ -520,9 +521,9 @@ processing = False  # Flag to indicate if a process is ongoing
 
 @app.on_message(filters.text)
 async def handle_message(client, message):
-    global processing
     topy = message.reply_to_message_id
     if topy==4:
+        global processing
         if processing:
             tk = await message.reply_text("Your request is in queue.")
             await command_queue.put(message)
