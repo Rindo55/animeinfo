@@ -446,6 +446,7 @@ processing = False  # Flag to indicate if a process is ongoing
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
     topy = message.reply_to_message_id
+    KAYO_ID=-1001911678094
     if topy==4:
         global processing
         if processing:
@@ -506,7 +507,7 @@ async def handle_message(client, message):
             print("Error:", responsez.status_code)
         topicz_id=topy
         await app.send_message(
-            chat_id=KAYO_IDz,
+            chat_id=KAYO_ID,
             text=assistant_responsez,
             reply_to_message_id=topicz_id
         )
