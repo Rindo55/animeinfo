@@ -483,7 +483,7 @@ async def handle_message(client, message):
     if responsex.status_code == 200:
         datax = responsex.json()
         if "choices" in datax and len(datax["choices"]) > 0:
-            assistant_responsex = datax["choices"][0]["content"]
+            assistant_responsex = datax["choices"][0]["content"][0]
             print("Assistant:", assistant_responsex)
         else:
             print("No response from assistant.")
