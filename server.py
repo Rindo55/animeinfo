@@ -467,10 +467,13 @@ async def handle_message(client, message):
         print("Error:", response.status_code)
     return await message.reply_text(assistant_response)
 
-def in_forum_topic(_, __, message):
+def in_forum_topic(_, __):
+    global app
+    message = app.resolve_filter(__)
+    
     # Define your forum topics' keywords or patterns
-    forum_topics = ["bard"]  # Adjust these
-
+    forum_topics = ["topic1", "topic2", "topic3"]  # Adjust these
+    
     # Check if any of the forum topics' keywords are present in the message text
     return any(keyword in message.text.lower() for keyword in forum_topics)
 
