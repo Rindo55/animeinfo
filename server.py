@@ -477,7 +477,7 @@ async def handle_message(client, message):
     else:
         pass 
         
-@app.on_message(filters.text)
+@app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
     await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     KAYO_ID = -1001911678094
@@ -514,7 +514,7 @@ async def handle_message(client, message):
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
 
-@app.on_message(filters.text)
+@app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
     topy = message.reply_to_message_id
     if topy==4:
