@@ -443,8 +443,9 @@ async def handle_message(client, message):
 @app.on_message(filters.command("chatgpt"))
 async def handle_message(client, message):
     API_URL = "https://api.safone.me/chatgpt"
+    qry = " ".join(message.command[1:])
     payload = {
-        "message": "hello",
+        "message": qry,
         "version": 3,
         "chat_mode": "assistant",
         "dialog_messages": '[{"bot":"","user":""}]'
