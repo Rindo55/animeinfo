@@ -442,7 +442,7 @@ async def handle_message(client, message):
 
 @app.on_message(filters.command("chatgpt"))
 async def handle_message(client, message):
-    await app.send_chat_action(chat.id, enums.ChatAction.TYPING)
+    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     API_URL = "https://api.safone.me/chatgpt"
     qry = " ".join(message.command[1:])
     payload = {
