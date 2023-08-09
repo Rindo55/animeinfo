@@ -470,28 +470,27 @@ async def handle_message(client, message):
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
     await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
-    API_URLX = "https://api.safone.me/bard"
-    payloadx = {
-        "message": message.text,
-    }
-    headersx = {
-        "accept": "application/json",
-        "Content-Type": "application/json"
-    }
-    responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
-    if responsex.status_code == 200:
-        datax = responsex.json()
-        if "choices" in datax and len(datax["choices"]) > 0:
-            assistant_responsex = datax["choices"][0]["content"][0]
-            print("Assistant:", assistant_responsex)
-        else:
-            print("No response from assistant.")
-    else:
-        print("Error:", response.status_code)
     KAYO_ID = -1001911678094
     top = message.reply_to_message_id
-    print("topic id:", top)
     if top==3:
+        API_URLX = "https://api.safone.me/bard"
+        payloadx = {
+            "message": message.text,
+        }
+        headersx = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
+        if responsex.status_code == 200:
+            datax = responsex.json()
+            if "choices" in datax and len(datax["choices"]) > 0:
+                assistant_responsex = datax["choices"][0]["content"][0]
+                print("Assistant:", assistant_responsex)
+            else:
+                print("No response from assistant.")
+        else:
+            print("Error:", response.status_code)
         topic_id=top
         await app.send_message(
             chat_id=KAYO_ID,
