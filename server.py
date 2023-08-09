@@ -469,7 +469,7 @@ async def handle_message(client, message):
 
 @app.on_message(filters.command("bard"))
 async def handle_message(client, message):
-    await app.send_chat_action(chat_id, enums.ChatAction.TYPING)
+    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     API_URLX = "https://api.safone.me/bard"
     qryx = " ".join(message.command[1:])
     payloadx = {
