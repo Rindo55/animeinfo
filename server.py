@@ -442,6 +442,7 @@ async def handle_message(client, message):
 
 @app.on_message(filters.command("chatgpt"))
 async def handle_message(client, message):
+    await app.send_chat_action(chat_id, enums.ChatAction.TYPING)
     API_URL = "https://api.safone.me/chatgpt"
     qry = " ".join(message.command[1:])
     payload = {
@@ -465,6 +466,30 @@ async def handle_message(client, message):
     else:
         print("Error:", response.status_code)
     return await message.reply_text(assistant_response)
+
+@app.on_message(filters.command("bard"))
+async def handle_message(client, message):
+    await app.send_chat_action(chat_id, enums.ChatAction.TYPING)
+    API_URLX = "https://api.safone.me/bard"
+    qryx = " ".join(message.command[1:])
+    payloadx = {
+        "message": qryx,
+    }
+    headersx = {
+        "accept": "application/json",
+        "Content-Type": "application/json"
+    }
+    responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
+    if responsex.status_code == 200:
+        datax = responsex.json()
+        if "choices" in datax and len(datax["choices"]) > 0:
+            assistant_responsex = datax["choices"][0]["content"]
+            print("Assistant:", assistant_responsex)
+        else:
+            print("No response from assistant.")
+    else:
+        print("Error:", response.status_code)
+    return await message.reply_text(assistant_responsex)
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
