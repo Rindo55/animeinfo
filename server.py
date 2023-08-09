@@ -489,9 +489,9 @@ async def handle_message(client, message):
     else:
         print("Error:", response.status_code)
     KAYO_ID = -1001911678094
-    top = message.reply_to_top_message_id
+    top = message.reply_to_message_id
     print("topic id:", top)
-    if top:
+    if top==3:
         topic_id=top
         await app.send_message(
             chat_id=KAYO_ID,
@@ -499,12 +499,7 @@ async def handle_message(client, message):
             reply_to_message_id=topic_id
         )
     else:
-        topic_id=message.reply_to_message_id
-        await app.send_message(
-            chat_id=KAYO_ID,
-            text=assistant_responsex,
-            reply_to_message_id=topic_id
-        )
+        print("Error")
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
