@@ -442,7 +442,7 @@ async def handle_message(client, message):
 
 @app.on_message(filters.command("chatgpt"))
 async def handle_message(client, message):
-    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
+    await app.send_chat_action(message.chat.id, "typing")
     API_URL = "https://api.safone.me/chatgpt"
     qry = " ".join(message.command[1:])
     payload = {
@@ -469,6 +469,7 @@ async def handle_message(client, message):
 
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
+    sk_id = -1001911678094
     await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     KAYO_ID = -1001911678094
     top = message.reply_to_message_id
@@ -498,7 +499,7 @@ async def handle_message(client, message):
             reply_to_message_id=topic_id
         )
     else:
-        print("Error")
+        pass 
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
