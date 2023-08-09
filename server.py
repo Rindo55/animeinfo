@@ -448,7 +448,7 @@ async def handle_message(client, message):
     if topz==2:
         API_URLz = "https://api.safone.me/chatgpt"
         boom = message.text
-        payload = {
+        payloadz = {
             "message": boom,
             "version": 3,
             "chat_mode": "assistant",
