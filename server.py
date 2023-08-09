@@ -456,8 +456,63 @@ async def handle_message(client, message):
         else:
             await command_queue.put(message)
             await process_queue()
+    elif topy==3:
+        API_URLX = "https://api.safone.me/bard"
+        payloadx = {
+            "message": message.text,
+        }
+        headersx = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
+        if responsex.status_code == 200:
+            datax = responsex.json()
+            if "choices" in datax and len(datax["choices"]) > 0:
+                assistant_responsex = datax["choices"][0]["content"][0]
+                print("Assistant:", assistant_responsex)
+            else:
+                print("No response from assistant.")
+        else:
+            print("Error:", responsex.status_code)
+        topic_id=topy
+        await app.send_message(
+            chat_id=KAYO_ID,
+            text=assistant_responsex,
+            reply_to_message_id=topic_id
+        )
+    elif topy==2:
+        API_URLz = "https://api.safone.me/chatgpt"
+        boom = message.text
+        payloadz = {
+            "message": boom,
+            "version": 3,
+            "chat_mode": "assistant",
+            "dialog_messages": '[{"bot":"","user":""}]'
+        }
+        headersz = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        responsez = requests.post(API_URLz, json=payloadz, headers=headersz)
+        if responsez.status_code == 200:
+            dataz = responsez.json()
+            if "choices" in dataz and len(dataz["choices"]) > 0:
+                assistant_responsez = dataz["choices"][0]["message"]["content"]
+                print("Assistant:", assistant_responsez)
+            else:
+                print("No response from assistant.")
+        else:
+            print("Error:", responsez.status_code)
+        topicz_id=topy
+        await app.send_message(
+            chat_id=KAYO_IDz,
+            text=assistant_responsez,
+            reply_to_message_id=topicz_id
+        )
     else:
-        print("Error")
+        pass 
+        
 
 async def process_queue():
     global processing
@@ -515,76 +570,6 @@ async def process_queue():
 async def handle_private_message(client, message):
     await process_queue()
     
-@app.on_message(filters.chat(-1001911678094))
-async def handle_message(client, message):
-    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
-    KAYO_ID = -1001911678094
-    top = message.reply_to_message_id
-    if top==3:
-        API_URLX = "https://api.safone.me/bard"
-        payloadx = {
-            "message": message.text,
-        }
-        headersx = {
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        }
-        responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
-        if responsex.status_code == 200:
-            datax = responsex.json()
-            if "choices" in datax and len(datax["choices"]) > 0:
-                assistant_responsex = datax["choices"][0]["content"][0]
-                print("Assistant:", assistant_responsex)
-            else:
-                print("No response from assistant.")
-        else:
-            print("Error:", responsex.status_code)
-        topic_id=top
-        await app.send_message(
-            chat_id=KAYO_ID,
-            text=assistant_responsex,
-            reply_to_message_id=topic_id
-        )
-    else:
-        pass
-@app.on_message(filters.text)
-async def handle_message(client, message):
-    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
-    KAYO_IDz = -1001911678094
-    topz = message.reply_to_message_id
-    if topz==2:
-        API_URLz = "https://api.safone.me/chatgpt"
-        boom = message.text
-        payloadz = {
-            "message": boom,
-            "version": 3,
-            "chat_mode": "assistant",
-            "dialog_messages": '[{"bot":"","user":""}]'
-        }
-        headersz = {
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        }
-        responsez = requests.post(API_URLz, json=payloadz, headers=headersz)
-        if responsez.status_code == 200:
-            dataz = responsez.json()
-            if "choices" in dataz and len(dataz["choices"]) > 0:
-                assistant_responsez = dataz["choices"][0]["message"]["content"]
-                print("Assistant:", assistant_responsez)
-            else:
-                print("No response from assistant.")
-        else:
-            print("Error:", responsez.status_code)
-        topicz_id=topz
-        await app.send_message(
-            chat_id=KAYO_IDz,
-            text=assistant_responsez,
-            reply_to_message_id=topicz_id
-        )
-    else:
-        pass 
-    
-
     
 
 
