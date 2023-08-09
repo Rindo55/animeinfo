@@ -463,6 +463,7 @@ async def handle_message(client, message):
             print("No response from assistant.")
     else:
         print("Error:", response.status_code)
+    return await message.reply_text(assistant_response)
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
