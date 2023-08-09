@@ -444,7 +444,7 @@ async def handle_message(client, message):
 async def handle_message(client, message):
     qry = " ".join(message.command[1:])
     api = SafoneAPI()
-    resp = await api.chatgpt(qry, version=4)
+    resp = await api.chatgpt("hello", version=4)
     resut = resp.results
     return await message.reply_text(resut)
     
