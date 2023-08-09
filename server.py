@@ -442,37 +442,27 @@ async def handle_message(client, message):
 
 @app.on_message(filters.command("chatgpt"))
 async def handle_message(client, message):
-API_URL = "https://api.safone.me/chatgpt"
-
-# Request payload data
-payload = {
-    "message": "hello",
-    "version": 3,
-    "chat_mode": "assistant",
-    "dialog_messages": '[{"bot":"","user":""}]'
-}
-
-# Headers
-headers = {
-    "accept": "application/json",
-    "Content-Type": "application/json"
-}
-
-# Make the POST request
-response = requests.post(API_URL, json=payload, headers=headers)
-
-# Check if the request was successful
-if response.status_code == 200:
-    data = response.json()
-
-    # Extract the assistant's response
-    if "choices" in data and len(data["choices"]) > 0:
-        assistant_response = data["choices"][0]["message"]["content"]
-        print("Assistant:", assistant_response)
-    else:
-        print("No response from assistant.")
-else:
-    print("Error:", response.status_code)
+    API_URL = "https://api.safone.me/chatgpt"
+    payload = {
+        "message": "hello",
+        "version": 3,
+        "chat_mode": "assistant",
+        "dialog_messages": '[{"bot":"","user":""}]'
+    }
+    headers = {
+        "accept": "application/json",
+        "Content-Type": "application/json"
+    }
+    response = requests.post(API_URL, json=payload, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        if "choices" in data and len(data["choices"]) > 0:
+            assistant_response = data["choices"][0]["message"]["content"]
+            print("Assistant:", assistant_response)
+        else:
+            print("No response from assistant.")
+        else:
+            print("Error:", response.status_code)
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
