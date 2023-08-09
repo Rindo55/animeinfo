@@ -440,45 +440,6 @@ async def handle_message(client, message):
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
 
-
-@app.on_message(filters.text)
-async def handle_message(client, message):
-    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
-    KAYO_ID = -1001911678094
-    top = message.reply_to_message_id
-    if top==3:
-        API_URLX = "https://api.safone.me/bard"
-        payloadx = {
-            "message": message.text,
-        }
-        headersx = {
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        }
-        responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
-        if responsex.status_code == 200:
-            datax = responsex.json()
-            if "choices" in datax and len(datax["choices"]) > 0:
-                assistant_responsex = datax["choices"][0]["content"][0]
-                print("Assistant:", assistant_responsex)
-            else:
-                print("No response from assistant.")
-        else:
-            print("Error:", responsex.status_code)
-        topic_id=top
-        await app.send_message(
-            chat_id=KAYO_ID,
-            text=assistant_responsex,
-            reply_to_message_id=topic_id
-        )
-    else:
-        await app.send_message(
-            chat_id=KAYO_ID,
-            text="Temporarily unavailable due to high traffic, please try again later.",
-            reply_to_message_id=topic_id
-        )
-        
-
 @app.on_message(filters.text)
 async def handle_message(client, message):
     await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
@@ -515,6 +476,40 @@ async def handle_message(client, message):
         )
     else:
         pass 
+        
+@app.on_message(filters.text)
+async def handle_message(client, message):
+    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
+    KAYO_ID = -1001911678094
+    top = message.reply_to_message_id
+    if top==3:
+        API_URLX = "https://api.safone.me/bard"
+        payloadx = {
+            "message": message.text,
+        }
+        headersx = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
+        if responsex.status_code == 200:
+            datax = responsex.json()
+            if "choices" in datax and len(datax["choices"]) > 0:
+                assistant_responsex = datax["choices"][0]["content"][0]
+                print("Assistant:", assistant_responsex)
+            else:
+                print("No response from assistant.")
+        else:
+            print("Error:", responsex.status_code)
+        topic_id=top
+        await app.send_message(
+            chat_id=KAYO_ID,
+            text=assistant_responsex,
+            reply_to_message_id=topic_id
+        )
+    else:
+        pass
+
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
