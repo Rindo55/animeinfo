@@ -17,7 +17,7 @@ import requests
 from html_telegraph_poster import TelegraphPoster
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
-bot_token = "5200557461:AAFEDzZfrTQv-kKtRog3W2LWhe3i6M4_1oM"
+bot_token = "6358924089:AAF9ruOPppIC-F3z2LwAym-SGqOFsf-cxuM"
 app = Client("anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 def get_anime_info(anime_title):
     url = f"https://api.jikan.moe/v4/anime?q={anime_title}"
@@ -427,9 +427,9 @@ async def get_anilist_data(title):
       site = None
 
     if site == "youtube":
-      caption += f"\n - [Synopsis]({syn})  |  [Trailer](https://www.youtube.com/watch?v={ytid})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})\n ━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
+      caption += f"\n - [Synopsis]({syn})  |  [Trailer](https://www.youtube.com/watch?v={ytid})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})"
     else:
-      caption += f"\n - [Synopsis]({syn})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n**@AnimeArchiveX**"
+      caption += f"\n - [Synopsis]({syn})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})"
 
     return img, caption
                                 
@@ -458,6 +458,12 @@ async def handle_message(client, message):
             await command_queue.put(message)
             await process_queue()
     elif topy==3:
+        topic_id=topy
+        ta = await app.send_message(
+            chat_id=KAYO_ID,
+            text="Typing...",
+            reply_to_message_id=topic_id
+        )
         API_URLX = "https://api.safone.me/bard"
         payloadx = {
             "message": message.text,
@@ -476,13 +482,15 @@ async def handle_message(client, message):
                 print("No response from assistant.")
         else:
             print("Error:", responsex.status_code)
-        topic_id=topy
-        await app.send_message(
-            chat_id=KAYO_ID,
-            text=assistant_responsex,
-            reply_to_message_id=topic_id
-        )
+
+        await ta.edit(assistant_responsex)
     elif topy==2:
+        topi_id=topy
+        tak = await app.send_message(
+            chat_id=KAYO_ID,
+            text="Typing...",
+            reply_to_message_id=topi_id
+        )
         API_URLz = "https://api.safone.me/chatgpt"
         boom = message.text
         payloadz = {
@@ -506,11 +514,7 @@ async def handle_message(client, message):
         else:
             print("Error:", responsez.status_code)
         topicz_id=topy
-        await app.send_message(
-            chat_id=KAYO_ID,
-            text=assistant_responsez,
-            reply_to_message_id=topicz_id
-        )
+        await tak.edit(assistant_responsez)
     else:
         pass 
         
