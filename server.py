@@ -492,7 +492,7 @@ async def handle_message(client, message):
         if responsez.status_code == 200:
             dataz = responsez.json()
             if "choices" in dataz and len(dataz["choices"]) > 0:
-                assistant_response = data["choices"][0]["message"]["content"]
+                assistant_responsez = data["choices"][0]["message"]["content"]
                 print("Assistant:", assistant_responsez)
             else:
                 print("No response from assistant.")
@@ -512,10 +512,9 @@ processing = False  # Flag to indicate if a process is ongoing
 
 @app.on_message(filters.text)
 async def handle_message(client, message):
+    global processing
     await app.send_chat_action(message.chat.id, enums.ChatAction.UPLOAD_PHOTO)
     topy = message.reply_to_message_id
-    global processing
-    
     if topy==4:
         if processing:
             tk = await message.reply_text("Your request is in queue.")
