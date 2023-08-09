@@ -464,7 +464,7 @@ async def handle_message(client, message):
             else:
                 print("No response from assistant.")
         else:
-            print("Error:", response.status_code)
+            print("Error:", responsex.status_code)
         topic_id=top
         await app.send_message(
             chat_id=KAYO_ID,
@@ -472,7 +472,12 @@ async def handle_message(client, message):
             reply_to_message_id=topic_id
         )
     else:
-        pass 
+        await app.send_message(
+            chat_id=KAYO_ID,
+            text=responsex.status_code,
+            reply_to_message_id=topic_id
+        )
+        
 
 @app.on_message(filters.text)
 async def handle_message(client, message):
@@ -481,8 +486,11 @@ async def handle_message(client, message):
     topz = message.reply_to_message_id
     if topz==2:
         API_URLz = "https://api.safone.me/chatgpt"
-        payloadz = {
-            "message": message.text,
+        payload = {
+            "message": qry,
+            "version": 3,
+            "chat_mode": "assistant",
+            "dialog_messages": '[{"bot":"","user":""}]'
         }
         headersz = {
             "accept": "application/json",
@@ -540,7 +548,7 @@ async def process_queue():
             reply_to_message_id=topicy_id
         )
         
-        bing = " ".join(next_command.command[1:])
+        bing = next_command.text
         sux = f"https://api.safone.me/imagine?text={bing}&version=3"
         responsep = requests.get(sux)
         print(responsep)
