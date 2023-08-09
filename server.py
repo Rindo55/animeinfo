@@ -467,19 +467,9 @@ async def handle_message(client, message):
         print("Error:", response.status_code)
     return await message.reply_text(assistant_response)
 
-def in_forum_topic(_, __):
-    global app
-    message = app.resolve_filter(__)
-    
-    # Define your forum topics' keywords or patterns
-    forum_topics = ["topic1", "topic2", "topic3"]  # Adjust these
-    
-    # Check if any of the forum topics' keywords are present in the message text
-    return any(keyword in message.text.lower() for keyword in forum_topics)
-
-@app.on_message(filters.command("bard") & in_forum_topic)
+@app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
-    await app.send_chat_action(message.chat.id, "typing")
+    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     API_URLX = "https://api.safone.me/bard"
     qryx = " ".join(message.command[1:])
     payloadx = {
@@ -493,15 +483,18 @@ async def handle_message(client, message):
     if responsex.status_code == 200:
         datax = responsex.json()
         if "choices" in datax and len(datax["choices"]) > 0:
-            assistant_responsex = datax["choices"][0]["content"][0]  # Extract the first content
+            assistant_responsex = datax["choices"][0]["content"][0]
             print("Assistant:", assistant_responsex)
         else:
             print("No response from assistant.")
     else:
-        print("Error:", responsex.status_code)
-    
-    # Send the response to the user without the square brackets
-    await message.reply_text(assistant_responsex)
+        print("Error:", response.status_code)
+    KAYO_ID = -1001911678094
+    return await app.send_message(
+        chat_id=KAYO_ID,
+        text=assistant_responsex,
+        reply_to_message_id=3
+    )
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
