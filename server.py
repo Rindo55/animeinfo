@@ -513,7 +513,6 @@ processing = False  # Flag to indicate if a process is ongoing
 @app.on_message(filters.text)
 async def handle_message(client, message):
     global processing
-    await app.send_chat_action(message.chat.id, enums.ChatAction.UPLOAD_PHOTO)
     topy = message.reply_to_message_id
     if topy==4:
         if processing:
@@ -537,8 +536,9 @@ async def process_queue():
         
         bing = " ".join(next_command.command[1:])
         sux = f"https://api.safone.me/imagine?text={bing}&version=3"
-        responsez = requests.get(sux)
-        fuk = responsez.json()
+        responsep = requests.get(sux)
+        print(responsep)
+        fuk = responsep.json()
         
         pho_list = fuk['image']  # Get the list of images directly
         
@@ -556,7 +556,7 @@ async def process_queue():
             with open(temp_filename, 'wb') as file:
                 file.write(b64dec)
             
-            media_group.append(InputMediaPhoto(media=temp_filename, caption=f"Caption for image {idx + 1}"))
+            media_group.append(InputMediaPhoto(media=temp_filename, caption=f"image {idx + 1}"))
         
         await next_command.reply_media_group(
             media=media_group,
