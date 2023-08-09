@@ -497,8 +497,8 @@ async def handle_message(client, message):
             else:
                 print("No response from assistant.")
         else:
-            print("Error:", response.status_code)
-        topicz_id=top
+            print("Error:", responsez.status_code)
+        topicz_id=topz
         await app.send_message(
             chat_id=KAYO_IDz,
             text=assistant_responsez,
@@ -531,8 +531,14 @@ async def process_queue():
     
     while not command_queue.empty():
         processing = True
+        sam_id = -1001911678094
         next_command = await command_queue.get()
-        taku = await next_command.reply_text("Imagining...")
+        topicy_id=4
+        taku = await app.send_message(
+            chat_id=sam_id,
+            text="Imagining...",
+            reply_to_message_id=topicy_id
+        )
         
         bing = " ".join(next_command.command[1:])
         sux = f"https://api.safone.me/imagine?text={bing}&version=3"
@@ -558,9 +564,10 @@ async def process_queue():
             
             media_group.append(InputMediaPhoto(media=temp_filename, caption=f"image {idx + 1}"))
         
-        await next_command.reply_media_group(
+        await app.send_media_group(
+            chat_id=sam_id,
             media=media_group,
-            reply_to_message_id=next_command.id
+            reply_to_message_id=topicy_id
         )
         
         # Clean up temporary files
