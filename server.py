@@ -444,7 +444,14 @@ async def handle_message(client, message):
 async def handle_message(client, message):
     qry = " ".join(message.command[1:])
     api = SafoneAPI()
-    resp = await api.chatgpt("hello", version=3)
+    resp = await api.chatgpt(
+        {
+            "message": "hello",
+            "version": 3,
+            "chat_mode": "assistant",
+            "dialog_messages": "[{\"bot\":\"\",\"user\":\"\"}]"
+        }
+    )
     resut = resp.results
     return await message.reply_text(resut)
     
