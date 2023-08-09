@@ -1,5 +1,6 @@
 from pyrogram import Client, idle, filters
 import time
+from SafoneAPI import SafoneAPI
 import os
 import asyncio
 from html_telegraph_poster.upload_images import upload_image
@@ -439,6 +440,14 @@ async def handle_message(client, message):
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
 
+@app.on_message(filters.command("chatgpt"))
+async def handle_message(client, message):
+    qry = " ".join(message.command[1:])
+    api = SafoneAPI()
+    resp = await api.chatgpt(qry, version=4)
+    resut = await resp.results
+    return await message.reply_text(resut)
+    
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
 
