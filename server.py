@@ -440,36 +440,9 @@ async def handle_message(client, message):
     img, caption = result
     return await client.send_photo(message.chat.id,photo=img,caption=caption)
 
-@app.on_message(filters.command("chatgpt"))
-async def handle_message(client, message):
-    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
-    API_URL = "https://api.safone.me/chatgpt"
-    qry = " ".join(message.command[1:])
-    payload = {
-        "message": qry,
-        "version": 3,
-        "chat_mode": "assistant",
-        "dialog_messages": '[{"bot":"","user":""}]'
-    }
-    headers = {
-        "accept": "application/json",
-        "Content-Type": "application/json"
-    }
-    response = requests.post(API_URL, json=payload, headers=headers)
-    if response.status_code == 200:
-        data = response.json()
-        if "choices" in data and len(data["choices"]) > 0:
-            assistant_response = data["choices"][0]["message"]["content"]
-            print("Assistant:", assistant_response)
-        else:
-            print("No response from assistant.")
-    else:
-        print("Error:", response.status_code)
-    return await message.reply_text(assistant_response)
 
-@app.on_message(filters.chat)
+@app.on_message(filters.text)
 async def handle_message(client, message):
-    sk_id = -1001911678094
     await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
     KAYO_ID = -1001911678094
     top = message.reply_to_message_id
@@ -500,22 +473,60 @@ async def handle_message(client, message):
         )
     else:
         pass 
+
+@app.on_message(filters.text)
+async def handle_message(client, message):
+    await app.send_chat_action(message.chat.id, enums.ChatAction.TYPING)
+    KAYO_IDz = -1001911678094
+    topz = message.reply_to_message_id
+    if topz==2:
+        API_URLz = "https://api.safone.me/chatgpt"
+        payloadz = {
+            "message": message.text,
+        }
+        headersz = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        responsez = requests.post(API_URLz, json=payloadz, headers=headersz)
+        if responsez.status_code == 200:
+            dataz = responsez.json()
+            if "choices" in dataz and len(dataz["choices"]) > 0:
+                assistant_response = data["choices"][0]["message"]["content"]
+                print("Assistant:", assistant_responsez)
+            else:
+                print("No response from assistant.")
+        else:
+            print("Error:", response.status_code)
+        topicz_id=top
+        await app.send_message(
+            chat_id=KAYO_IDz,
+            text=assistant_responsez,
+            reply_to_message_id=topicz_id
+        )
+    else:
+        pass 
     
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
 
-@app.on_message(filters.command("imagine"))
+@app.on_message(filters.text)
 async def handle_message(client, message):
+    await app.send_chat_action(message.chat.id, enums.ChatAction.UPLOAD_PHOTO)
+    topy = message.reply_to_message_id
     global processing
     
-    if processing:
-        tk = await message.reply_text("Your request is in queue.")
-        await command_queue.put(message)
-        await asyncio.sleep(10)
-        await tk.delete()
+    if topy==4:
+        if processing:
+            tk = await message.reply_text("Your request is in queue.")
+            await command_queue.put(message)
+            await asyncio.sleep(10)
+            await tk.delete()
+        else:
+            await command_queue.put(message)
+            await process_queue()
     else:
-        await command_queue.put(message)
-        await process_queue()
+        print("Error")
 
 async def process_queue():
     global processing
