@@ -482,6 +482,7 @@ async def process_queue():
                 text=fuk['error'],
                 reply_to_message_id=topicy_id
             )
+            processing = False
         else:
             pho_list = fuk['image']  # Get the list of images directly
             media_group = []
