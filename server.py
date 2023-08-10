@@ -443,7 +443,7 @@ async def handle_message(client, message):
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
 
-@app.on_message(filters.command("imagine")):
+@app.on_message(filters.command("imagine"))
 async def handle_message(client, message):
     topy = message.reply_to_message_id
     if topy==4:
