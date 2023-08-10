@@ -476,7 +476,7 @@ async def process_queue():
         print(responsep)
         fuk = responsep.json()
 
-        if fuk['error'] in fuk:
+        if 'error' in fuk:
             await app.send_message(
                 chat_id=sam_id,
                 text=fuk['error'],
