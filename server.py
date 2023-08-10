@@ -443,10 +443,9 @@ async def handle_message(client, message):
 command_queue = asyncio.Queue()
 processing = False  # Flag to indicate if a process is ongoing
 
-@app.on_message(filters.chat(-1001911678094))
+@app.on_message(filters.command("imagine")):
 async def handle_message(client, message):
     topy = message.reply_to_message_id
-    KAYO_ID=-1001911678094
     if topy==4:
         global processing
         if processing:
@@ -457,8 +456,64 @@ async def handle_message(client, message):
         else:
             await command_queue.put(message)
             await process_queue()
-    elif topy==3:
-        topic_id=topy
+
+async def process_queue():
+    global processing
+    
+    while not command_queue.empty():
+        processing = True
+        sam_id = -1001911678094
+        next_command = await command_queue.get()
+        topicy_id=4
+        taku = await app.send_message(
+            chat_id=sam_id,
+            text="Imagining...",
+            reply_to_message_id=topicy_id
+        )
+        bing = " ".join(next_command.command[1:])
+        sux = f"https://api.safone.me/imagine?text={bing}&version=3"
+        responsep = requests.get(sux)
+        print(responsep)
+        fuk = responsep.json()
+
+        if fuk['error'] in fuk:
+            await app.send_message(
+                chat_id=sam_id,
+                text=fuk['error'],
+                reply_to_message_id=topicy_id
+            )
+        else:
+            pho_list = fuk['image']  # Get the list of images directly
+            media_group = []
+            temp_files = []  # To keep track of temporary files
+            for idx, pho in enumerate(pho_list):
+                sdf = ''.join(pho)
+                b64dec = base64.b64decode(sdf)
+                temp_filename = f"image{idx}.jpg"
+                temp_files.append(temp_filename)
+                with open(temp_filename, 'wb') as file:
+                    file.write(b64dec)
+                media_group.append(InputMediaPhoto(media=temp_filename, caption=f"image {idx + 1}"))
+            await app.send_media_group(
+                chat_id=sam_id,
+                media=media_group,
+                reply_to_message_id=topicy_id
+            )
+            for temp_file in temp_files:
+                os.remove(temp_file)
+            await taku.delete()
+            processing = False
+
+@app.on_message(filters.private)
+async def handle_private_message(client, message):
+    await process_queue()
+            
+@app.on_message(filters.chat(-1001911678094))
+async def handle_message(client, message):
+    topz = message.reply_to_message_id
+    KAYO_ID=-1001911678094
+    if topz==3:
+        topic_id=topz
         ta = await app.send_message(
             chat_id=KAYO_ID,
             text="Typing...",
@@ -484,8 +539,8 @@ async def handle_message(client, message):
             print("Error:", responsex.status_code)
 
         await ta.edit(assistant_responsex)
-    elif topy==2:
-        topi_id=topy
+    elif topz==2:
+        topi_id=topz
         tak = await app.send_message(
             chat_id=KAYO_ID,
             text="Typing...",
@@ -513,67 +568,13 @@ async def handle_message(client, message):
                 print("No response from assistant.")
         else:
             print("Error:", responsez.status_code)
-        topicz_id=topy
+        topicz_id=topz
         await tak.edit(assistant_responsez)
     else:
         pass 
         
 
-async def process_queue():
-    global processing
-    
-    while not command_queue.empty():
-        processing = True
-        sam_id = -1001911678094
-        next_command = await command_queue.get()
-        topicy_id=4
-        taku = await app.send_message(
-            chat_id=sam_id,
-            text="Imagining...",
-            reply_to_message_id=topicy_id
-        )
-        
-        bing = next_command.text
-        sux = f"https://api.safone.me/imagine?text={bing}&version=3"
-        responsep = requests.get(sux)
-        print(responsep)
-        fuk = responsep.json()
-        
-        pho_list = fuk['image']  # Get the list of images directly
-        
-        media_group = []
-        temp_files = []  # To keep track of temporary files
-        
-        for idx, pho in enumerate(pho_list):
-            sdf = ''.join(pho)
-            b64dec = base64.b64decode(sdf)
-            
-            # Create a temporary file to hold the image data
-            temp_filename = f"image{idx}.jpg"
-            temp_files.append(temp_filename)
-            
-            with open(temp_filename, 'wb') as file:
-                file.write(b64dec)
-            
-            media_group.append(InputMediaPhoto(media=temp_filename, caption=f"image {idx + 1}"))
-        
-        await app.send_media_group(
-            chat_id=sam_id,
-            media=media_group,
-            reply_to_message_id=topicy_id
-        )
-        
-        # Clean up temporary files
-        for temp_file in temp_files:
-            os.remove(temp_file)
-        
-        await taku.delete()
-        
-        processing = False
 
-@app.on_message(filters.private)
-async def handle_private_message(client, message):
-    await process_queue()
     
     
 
