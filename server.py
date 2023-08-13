@@ -12,7 +12,6 @@ import sys
 import random
 import base64
 import aiohttp
-from PIL import Image
 import requests
 from html_telegraph_poster import TelegraphPoster
 api_id = 3845818
