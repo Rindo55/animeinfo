@@ -551,7 +551,7 @@ async def handle_message(client, message):
             "message": boom,
             "version": 3,
             "chat_mode": "assistant",
-            "dialog_messages": f'[{"bot":"","user":"{userid}"]'
+            "dialog_messages": f'[{{"bot":"","user":"{userid}"}}]'
         }
         headersz = {
             "accept": "application/json",
