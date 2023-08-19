@@ -507,6 +507,8 @@ async def handle_private_message(client, message):
             
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
+    user = message.from_user
+    userid = user.id
     topz = message.reply_to_message_id
     KAYO_ID=-1001911678094
     if topz==3:
@@ -549,7 +551,7 @@ async def handle_message(client, message):
             "message": boom,
             "version": 3,
             "chat_mode": "assistant",
-            "dialog_messages": '[{"bot":"","user":""}]'
+            "dialog_messages": f'[{"bot":"","user":"{userid}"]'
         }
         headersz = {
             "accept": "application/json",
