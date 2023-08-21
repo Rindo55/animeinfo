@@ -423,9 +423,10 @@ async def get_anilist_data(title):
       site = None
 
     if site == "youtube":
-      caption += f"\n - [Synopsis]({syn})  |  [Trailer](https://www.youtube.com/watch?v={ytid})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})"
+      caption += f"\n - [Synopsis]({syn})  |  [Trailer](https://www.youtube.com/watch?v={ytid})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━
+\n@AnimeArchiveX"
     else:
-      caption += f"\n - [Synopsis]({syn})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})"
+      caption += f"\n - [Synopsis]({syn})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n@AnimeArchiveX"
 
     return img, caption
                                 
