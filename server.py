@@ -246,6 +246,8 @@ atext = """
 
 - Rating: {}
 
+- Tags: {}
+
 - Rank: {} | Popularity: {}
 """
 async def get_anilist_data(title):
@@ -411,6 +413,7 @@ async def get_anilist_data(title):
       theme,
       duration,
       rating,
+      tagsx,
       malrank,
       malpopularity,
     )
