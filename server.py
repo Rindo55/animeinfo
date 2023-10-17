@@ -257,7 +257,7 @@ async def get_eng_data(capx):
     maldata = malresponse.json()
     mal = maldata["data"][0]
     damn = mal['title_english']
-    return Damn 
+    return damn 
 
     
 async def get_anilist_data(title):
