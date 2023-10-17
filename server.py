@@ -434,12 +434,10 @@ async def get_anilist_data(title):
     return img, caption
 
 def extract_title(filename):
-    pattern = r"\(\d+\)\s(.+)"
+    pattern = r"\(\d+\)\s(.+?)\s\["  # Updated pattern to stop at "[" character
     matches = re.findall(pattern, filename)
     if matches:
-        title = matches[0]
-        title = re.sub(r"\s\[[^\]]+\]", "", title)  # Remove bracketed information
-        return title
+        return matches[0]
     return None
 
 @app.on_message(
