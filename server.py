@@ -251,12 +251,19 @@ atext = """
 
 - Rank: {} | Popularity: {}
 """
+async def get_eng_data(filename):
+    vars_ = {"search": filename}
+    data = await get_anime(vars_,less=False)
+    titlez = data.get("title")
+    titlex = titlez.get("english")
+    return titlex
+
+    
 async def get_anilist_data(title):
     malurl = f"https://api.jikan.moe/v4/anime?q={title}"
     malresponse = requests.get(malurl)
     maldata = malresponse.json()
-    vars_ = {"search": title}
-    data = await get_anime(vars_,less=False)
+
     id_ = data.get("id")
     title = data.get("title")
     form = data.get("format")
@@ -454,8 +461,9 @@ async def main(client, message):
     file_info = await client.get_messages(chat_id=anidl_ch, message_ids=mssg_id)
     filename = file_info.document.file_name
     captio = extract_title(filename)
+    engcap = get_eng_data(filename)
     print(captio)
-    ediat = await app.edit_message_caption(chat_id=anidl_ch, message_id=mssg_id, caption=f"__{captio}__")
+    ediat = await app.edit_message_caption(chat_id=anidl_ch, message_id=mssg_id, caption=f"__{engcap}__")
 
 @app.on_message(filters.command("anilist"))
 async def handle_message(client, message):
