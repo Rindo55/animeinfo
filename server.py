@@ -450,13 +450,12 @@ def extract_title(filename):
     group=4,
 )
 async def main(client, message):
-    user_id = message.from_chat.id
     anidl_ch = -1001318649170
     mssg_id = int(message.id)
     file_info = await client.get_messages(chat_id=anidl_ch, message_ids=mssg_id)
     filename = file_info.document.file_name
     captio = extract_title(filename)
-    edit = await app.edit_message_caption(chat_id=anidl_ch, message_ids=mssg_id, caption=f"__captio__")
+    ediat = await app.edit_message_caption(chat_id=anidl_ch, message_ids=mssg_id, caption=f"__{captio}__")
 
 @app.on_message(filters.command("anilist"))
 async def handle_message(client, message):
