@@ -460,7 +460,7 @@ async def main(client, message):
     mssg_id = int(message.id)
     file_info = await client.get_messages(chat_id=anidl_ch, message_ids=mssg_id)
     filename = file_info.document.file_name
-    captio = await extract_title(filename)
+    captio = extract_title(filename)
     engcap = await get_eng_data(filename)
     print(captio)
     ediat = await app.edit_message_caption(chat_id=anidl_ch, message_id=mssg_id, caption=f"__{engcap}__")
