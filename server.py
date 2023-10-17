@@ -449,7 +449,7 @@ def extract_title(filename):
     ),
     group=4,
 )
-async def main(client, message)
+async def main(client, message):
     user_id = message.from_user.id
     anidl_ch = -1001318649170
     mssg_id = int(message.id)
