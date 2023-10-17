@@ -441,8 +441,7 @@ def extract_title(filename):
     return None
     
 @app.on_message(
-    filters.private
-    & (
+    (
         filters.document
         | filters.video
         | filters.audio
