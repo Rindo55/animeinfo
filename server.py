@@ -263,7 +263,8 @@ async def get_anilist_data(title):
     malurl = f"https://api.jikan.moe/v4/anime?q={title}"
     malresponse = requests.get(malurl)
     maldata = malresponse.json()
-
+    vars_ = {"search": title}
+    data = await get_anime(vars_,less=False)
     id_ = data.get("id")
     title = data.get("title")
     form = data.get("format")
@@ -461,7 +462,7 @@ async def main(client, message):
     file_info = await client.get_messages(chat_id=anidl_ch, message_ids=mssg_id)
     filename = file_info.document.file_name
     captio = extract_title(filename)
-    engcap = await get_eng_data(filename)
+    engcap = await get_eng_data(captio)
     print(captio)
     ediat = await app.edit_message_caption(chat_id=anidl_ch, message_id=mssg_id, caption=f"__{engcap}__")
 
