@@ -450,7 +450,7 @@ def extract_title(filename):
     group=4,
 )
 async def main(client, message):
-    user_id = message.from_user.id
+    user_id = message.from_chat.id
     anidl_ch = -1001318649170
     mssg_id = int(message.id)
     file_info = await client.get_messages(chat_id=anidl_ch, message_ids=mssg_id)
