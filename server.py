@@ -1,5 +1,6 @@
 from pyrogram import Client, idle, filters, enums
 import time
+import re
 from SafoneAPI import SafoneAPI
 import os
 import asyncio
@@ -431,7 +432,32 @@ async def get_anilist_data(title):
       caption += f"\n - [Synopsis]({syn})\n\n- More Info: [AniList](https://anilist.co/anime/{id_})  |  [MAL]({malink})\n━━━━━━━━━━━━━━━━━━━━━━\n@AnimeArchiveX"
 
     return img, caption
-                                
+
+def extract_title(filename):
+    pattern = r"\(\d+\)\s(.+)"
+    matches = re.findall(pattern, filename)
+    if matches:
+        return matches[0]
+    return None
+    
+@app.on_message(
+    filters.private
+    & (
+        filters.document
+        | filters.video
+        | filters.audio
+    ),
+    group=4,
+)
+async def main(client, message)
+    user_id = message.from_user.id
+    anidl_ch = -1001318649170
+    mssg_id = int(message.id)
+    file_info = await client.get_messages(chat_id=anidl_ch, message_ids=mssg_id)
+    filename = file_info.document.file_name
+    captio = extract_title(filename)
+    edit = await app.edit_message_caption(chat_id=anidl_ch, message_ids=mssg_id, caption=f"__captio__")
+
 @app.on_message(filters.command("anilist"))
 async def handle_message(client, message):
     name = " ".join(message.command[1:])
