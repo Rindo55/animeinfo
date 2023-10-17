@@ -455,6 +455,7 @@ async def main(client, message):
     file_info = await client.get_messages(chat_id=anidl_ch, message_ids=mssg_id)
     filename = file_info.document.file_name
     captio = extract_title(filename)
+    print(captio)
     ediat = await app.edit_message_caption(chat_id=anidl_ch, message_ids=mssg_id, caption=f"__{captio}__")
 
 @app.on_message(filters.command("anilist"))
