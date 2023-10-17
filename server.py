@@ -251,12 +251,13 @@ atext = """
 
 - Rank: {} | Popularity: {}
 """
-async def get_eng_data(filename):
-    vars_ = {"search": filename}
-    data = await get_anime(vars_,less=False)
-    titlez = data.get("title")
-    titlex = titlez.get("english")
-    return titlex
+async def get_eng_data(capx):
+    malurl = f"https://api.jikan.moe/v4/anime?q={capx}"
+    malresponse = requests.get(malurl)
+    maldata = malresponse.json()
+    mal = maldata["data"][0]
+    damn = mal['title_english']
+    return Damn 
 
     
 async def get_anilist_data(title):
