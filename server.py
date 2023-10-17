@@ -437,9 +437,11 @@ def extract_title(filename):
     pattern = r"\(\d+\)\s(.+)"
     matches = re.findall(pattern, filename)
     if matches:
-        return matches[0]
+        title = matches[0]
+        title = re.sub(r"\s\[[^\]]+\]", "", title)  # Remove bracketed information
+        return title
     return None
-    
+
 @app.on_message(
     (
         filters.document
@@ -455,7 +457,7 @@ async def main(client, message):
     filename = file_info.document.file_name
     captio = extract_title(filename)
     print(captio)
-    ediat = await app.edit_message_caption(chat_id=anidl_ch, message_ids=mssg_id, caption=f"__{captio}__")
+    ediat = await app.edit_message_caption(chat_id=anidl_ch, message_id=mssg_id, caption=f"__{captio}__")
 
 @app.on_message(filters.command("anilist"))
 async def handle_message(client, message):
