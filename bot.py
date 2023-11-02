@@ -71,26 +71,3 @@ def handle_message(_, message: Message):
             {'user_id': user_id, 'queries_left': query_limit - 1, 'last_query_time': datetime.now()}
         )
 app.run()        
-class telegram_chatbot():
-
-    #initialize token
-    def __init__(self, config):
-        self.token = self.read_token_from_config_file(config)
-        self.base = "https://api.telegram.org/bot{}/".format(self.token)
-    #get the message from user
-    def get_updates(self, offset=None):
-        url = self.base + "getUpdates?timeout=100"
-        if offset:
-            url = url + "&offset={}".format(offset + 1)
-        r = requests.get(url)
-        return json.loads(r.content)
-    #send message from bot to user chat
-    def send_message(self, msg, chat_id):
-        url = self.base + "sendMessage?chat_id={}&text={}".format(chat_id, msg)
-        if msg is not None:
-            requests.get(url)
-    #function to read token from config file
-    def read_token_from_config_file(self, config):
-        parser = cfg.ConfigParser()
-        parser.read(config)
-        return parser.get('creds', 'token')
