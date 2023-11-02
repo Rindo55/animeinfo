@@ -2,7 +2,7 @@ import requests
 import json
 import configparser as cfg
 
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 from datetime import datetime, timedelta
 from pymongo import MongoClient
