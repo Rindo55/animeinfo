@@ -70,4 +70,6 @@ def handle_message(_, message: Message):
         collection.insert_one(
             {'user_id': user_id, 'queries_left': query_limit - 1, 'last_query_time': datetime.now()}
         )
-app.run()        
+app.start()
+print("Powered by @animxt")
+idle()
