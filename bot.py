@@ -18,7 +18,6 @@ db = client['telegram_bot']
 collection = db['query_limits']
 
 # Pyrogram client
-app = Client('my_bot', api_id=123456, api_hash='your_api_hash')
 
 # Command handler for /querystatus
 @app.on_message(filters.command(['querystatus']))
