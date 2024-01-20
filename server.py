@@ -505,7 +505,7 @@ async def process_queue():
             reply_to_message_id=topicy_id
         )
         bing = " ".join(next_command.command[1:])
-        sux = f"https://api.safone.me/imagine?text={bing}&version=3"
+        sux = f"https://api.safone.me/imagine?prompt={bing}"
         responsep = requests.get(sux)
         print(responsep)
         fuk = responsep.json()
