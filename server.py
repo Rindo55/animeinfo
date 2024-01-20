@@ -505,7 +505,7 @@ async def process_queue():
             reply_to_message_id=topicy_id
         )
         bing = " ".join(next_command.command[1:])
-        sux = f"https://api.safone.me/imagine?prompt={bing}"
+        sux = f"https://api.safone.dev/imagine?prompt={bing}"
         responsep = requests.get(sux)
         print(responsep)
         fuk = responsep.json()
@@ -556,7 +556,7 @@ async def handle_message(client, message):
             text="Typing...",
             reply_to_message_id=topic_id
         )
-        API_URLX = "https://api.safone.me/bard"
+        API_URLX = "https://api.safone.dev/bard"
         payloadx = {
             "message": message.text,
         }
@@ -583,7 +583,7 @@ async def handle_message(client, message):
             text="Typing...",
             reply_to_message_id=topi_id
         )
-        API_URLz = "https://api.safone.me/chatgpt"
+        API_URLz = "https://api.safone.dev/chatgpt"
         boom = message.text
         payloadz = {
             "message": boom,
