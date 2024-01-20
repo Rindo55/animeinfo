@@ -567,8 +567,8 @@ async def handle_message(client, message):
         responsex = requests.post(API_URLX, json=payloadx, headers=headersx)
         if responsex.status_code == 200:
             datax = responsex.json()
-            if "choices" in datax and len(datax["choices"]) > 0:
-                assistant_responsex = datax["choices"][0]["content"][0]
+            if "candidates" in datax and len(datax["candidates"]) > 0:
+                assistant_responsex = datax["candidates"][0]["content"]["parts"][0]["text"]
                 print("Assistant:", assistant_responsex)
             else:
                 print("No response from assistant.")
