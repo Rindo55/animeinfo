@@ -547,7 +547,7 @@ async def process_queue():
 @app.on_message(filters.private)
 async def handle_private_message(client, message):
     await process_queue()
-
+GOOGLE_API_KEY = "AIzaSyA5X_AHEvif0EyIP8_Kx4jCg7lVEsArctQ"
 genai.configure(api_key=GOOGLE_API_KEY)
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
