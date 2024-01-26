@@ -1,7 +1,7 @@
 from pyrogram import Client, idle, filters, enums
 import time
 import re
-from telethon import TelegramClient
+from telethon import TelegramClient, sync
 from SafoneAPI import SafoneAPI
 import os
 import asyncio
