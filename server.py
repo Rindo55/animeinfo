@@ -15,6 +15,11 @@ import base64
 import aiohttp
 import requests
 from html_telegraph_poster import TelegraphPoster
+from dotenv import load_dotenv
+import google.generativeai as genai
+import PIL.Image
+
+from stickers import stickers
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
 bot_token = "6358924089:AAF9ruOPppIC-F3z2LwAym-SGqOFsf-cxuM"
@@ -542,7 +547,8 @@ async def process_queue():
 @app.on_message(filters.private)
 async def handle_private_message(client, message):
     await process_queue()
-            
+
+genai.configure(api_key=GOOGLE_API_KEY)
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
     user = message.from_user
@@ -607,6 +613,42 @@ async def handle_message(client, message):
             print("Error:", responsez.status_code)
         topicz_id=topz
         await tak.edit(assistant_responsez)
+    if topz == 1227:
+        try:
+            model_name = "gemini-pro-vision"
+            sticker_id = random.choice(stickers)
+            sticker = await message.reply_sticker(sticker_id)
+            txt = await message.reply(f"Loading {model_name} ...")
+            model = genai.GenerativeModel(model_name)
+            await txt.edit("Downloading Image....")
+            file_path = await message.download()
+            caption = message.caption
+            img = PIL.Image.open(file_path)
+            await txt.edit("Shhh 🤫 , **Gemini Pro Vision** is At Work.\n Pls Wait..")
+            response = (
+                model.generate_content([caption, img])
+                if caption
+                else model.generate_content(img)
+            )
+            os.remove(file_path)
+            await txt.edit('Formating the Result...')
+            await sticker.delete()
+            await txt.delete()
+            if response.text:
+                print("response: ", response.text)
+                await message.reply(response.text)
+            elif response.parts: # handle multiline resps
+               for part in response.parts:
+                print("part: ", part)
+                await message.reply(part)
+                time.sleep(2)
+            else:
+                await message.reply(
+                    "Couldn't figure out what's in the Image. Contact @pirate_user for help."
+                )
+        except Exception as e:
+            await message.reply("Something Bad occured, Contact @pirate_user")
+            raise e
     else:
         pass 
         
