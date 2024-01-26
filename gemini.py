@@ -1,6 +1,8 @@
 from telethon import TelegramClient, utils, events
 from telethon.tl.functions.messages import SendMediaRequest
 from telethon.tl.types import InputMediaUploadedDocument
+import google.generativeai as genai
+import PIL.Image
 
 GOOGLE_API_KEY = "AIzaSyA5X_AHEvif0EyIP8_Kx4jCg7lVEsArctQ"
 genai.configure(api_key=GOOGLE_API_KEY)
