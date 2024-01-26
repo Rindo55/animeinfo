@@ -618,7 +618,7 @@ async def handle_message(client, message):
             topic_id=topz
             model_name = "gemini-pro-vision"
             sticker_id = random.choice(stickers)
-            sticker = await await app.send_sticker(
+            sticker = await app.send_sticker(
                     chat_id=KAYO_ID,
                     file_id=sticker_id,
                     reply_to_message_id=topic_id
