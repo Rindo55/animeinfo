@@ -613,7 +613,49 @@ async def handle_message(client, message):
             print("Error:", responsez.status_code)
         topicz_id=topz
         await tak.edit(assistant_responsez)
-    elif topz == 1227:
+    elif topz == 1227 and message.text:
+                topic_id=topz
+        model_name = "gemini-pro-vision"
+        sticker_id = random.choice(stickers)
+        sticker = await app.send_sticker(
+                chat_id=KAYO_ID,
+                sticker=sticker_id,
+                reply_to_message_id=topic_id
+            )
+        txt = await app.send_message(
+            chat_id=KAYO_ID,
+            text=f"Loading {model_name} ...",
+            reply_to_message_id=topic_id
+        )
+        model = genai.GenerativeModel('gemini-pro')
+        await txt.edit("Downloading Image....")
+        text = message.text
+        await txt.edit("Shhh! 🤫, **Gemini Pro** is at Work.\n Please Wait..\n\n#BETA")
+        response = model.generate_content(text)
+        await txt.edit('Formating the Result...')
+        await sticker.delete()
+        await txt.delete()
+        if response.text:
+            print("response: ", response.text)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=response.text,
+                reply_to_message_id=topic_id
+            )
+        elif response.parts: # handle multiline resps
+            for part in response.parts:
+             print("part: ", part)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=part,
+                reply_to_message_id=topic_id
+            )
+            time.sleep(2)
+        else:
+            await message.reply(
+                "Couldn't figure out what's in the Image. Contact @pirate_user for help."
+            )
+    elif topz == 1227 and message.caption:
         topic_id=topz
         model_name = "gemini-pro-vision"
         sticker_id = random.choice(stickers)
