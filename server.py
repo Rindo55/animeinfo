@@ -620,12 +620,12 @@ async def handle_message(client, message):
             sticker_id = random.choice(stickers)
             sticker = await app.send_sticker(
                     chat_id=KAYO_ID,
-                    file_id=sticker_id,
+                    sticker=sticker_id,
                     reply_to_message_id=topic_id
                 )
             txt = await app.send_message(
                 chat_id=KAYO_ID,
-                sticker=f"Loading {model_name} ...",
+                text=f"Loading {model_name} ...",
                 reply_to_message_id=topic_id
             )
             model = genai.GenerativeModel(model_name)
