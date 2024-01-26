@@ -2,9 +2,11 @@ from telethon import TelegramClient, utils, events
 from telethon.tl.functions.messages import SendMediaRequest
 from telethon.tl.types import InputMediaUploadedDocument
 
-async def handle_message(event):
+GOOGLE_API_KEY = "AIzaSyA5X_AHEvif0EyIP8_Kx4jCg7lVEsArctQ"
+genai.configure(api_key=GOOGLE_API_KEY)
+
+async def handle_message(file_path,caption):
     # Replace 'message' with 'event.message'
-    message = event.message
     topic_id = 1227  # Replace with your actual condition
     if topic_id == 1227:
         model_name = "gemini-pro-vision"
@@ -30,8 +32,8 @@ async def handle_message(event):
         await txt.edit("Downloading Image....")
 
         # Replace 'message' with 'event.message'
-        file_path = await event.message.download()
-        caption = event.message.text
+        file_path = file_path
+        caption = caption
         img = PIL.Image.open(file_path)
         
         await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\n Please Wait..\n\n#BETA")
@@ -62,6 +64,4 @@ async def handle_message(event):
                 )
                 time.sleep(2)
         else:
-            await event.reply(
-                "Couldn't figure out what's in the Image. Contact @pirate_user for help."
-            )
+            pass
