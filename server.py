@@ -1,7 +1,6 @@
 from pyrogram import Client, idle, filters, enums
 import time
 import re
-from telethon import TelegramClient, sync
 from SafoneAPI import SafoneAPI
 import os
 import asyncio
@@ -19,14 +18,12 @@ from html_telegraph_poster import TelegraphPoster
 from dotenv import load_dotenv
 import google.generativeai as genai
 import PIL.Image
-from gemini import handle_message
+
 from stickers import stickers
 api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
 bot_token = "6358924089:AAF9ruOPppIC-F3z2LwAym-SGqOFsf-cxuM"
 app = Client("anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
-clientz = TelegramClient('gemini', api_id, api_hash)
-clientz.start()
 def get_anime_info(anime_title):
     url = f"https://api.jikan.moe/v4/anime?q={anime_title}"
     response = requests.get(url)
@@ -550,7 +547,8 @@ async def process_queue():
 @app.on_message(filters.private)
 async def handle_private_message(client, message):
     await process_queue()
-
+GOOGLE_API_KEY = "AIzaSyA5X_AHEvif0EyIP8_Kx4jCg7lVEsArctQ"
+genai.configure(api_key=GOOGLE_API_KEY)
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
     user = message.from_user
@@ -616,9 +614,54 @@ async def handle_message(client, message):
         topicz_id=topz
         await tak.edit(assistant_responsez)
     elif topz == 1227:
+        topic_id=topz
+        model_name = "gemini-pro-vision"
+        sticker_id = random.choice(stickers)
+        sticker = await app.send_sticker(
+                chat_id=KAYO_ID,
+                sticker=sticker_id,
+                reply_to_message_id=topic_id
+            )
+        txt = await app.send_message(
+            chat_id=KAYO_ID,
+            text=f"Loading {model_name} ...",
+            reply_to_message_id=topic_id
+        )
+        model = genai.GenerativeModel(model_name)
+        await txt.edit("Downloading Image....")
         file_path = await message.download()
         caption = message.caption
-        await handle_message(file_path,caption)
+        img = PIL.Image.open(file_path)
+        await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\n Please Wait..\n\n#BETA")
+        response = (
+            model.generate_content([caption, img])
+            if caption
+            else model.generate_content(img)
+        )
+        os.remove(file_path)
+        await txt.edit('Formating the Result...')
+        await sticker.delete()
+        await txt.delete()
+        if response.text:
+            print("response: ", response.text)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=response.text,
+                reply_to_message_id=topic_id
+            )
+        elif response.parts: # handle multiline resps
+            for part in response.parts:
+             print("part: ", part)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=part,
+                reply_to_message_id=topic_id
+            )
+            time.sleep(2)
+        else:
+            await message.reply(
+                "Couldn't figure out what's in the Image. Contact @pirate_user for help."
+            )
     else:
         pass 
         
@@ -715,8 +758,7 @@ async def anime_command_handler(client, message):
     info_string += f"Producers: {', '.join(producer['name'] for producer in anime_info['producers']['nodes'])}\n"
 
     # Send the anime info as a reply
-clientz.run_until_disconnected()
+
 app.start()
 print("Powered by @animxt")
 idle()
-
