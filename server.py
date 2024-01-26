@@ -651,7 +651,7 @@ async def handle_message(client, message):
             )
         elif response.parts: # handle multiline resps
             for part in response.parts:
-            print("part: ", part)
+             print("part: ", part)
             await app.send_message(
                 chat_id=KAYO_ID,
                 text=part,
