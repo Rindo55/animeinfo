@@ -613,7 +613,7 @@ async def handle_message(client, message):
             print("Error:", responsez.status_code)
         topicz_id=topz
         await tak.edit(assistant_responsez)
-    if topz == 1227:
+    elif topz == 1227:
         try:
             topic_id=topz
             model_name = "gemini-pro-vision"
