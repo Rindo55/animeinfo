@@ -627,9 +627,9 @@ async def handle_message(client, message):
             reply_to_message_id=topic_id
         )
         model = genai.GenerativeModel('gemini-pro')
-        await txt.edit("Downloading Image....")
+        await txt.edit("⚡ Thinking....")
         text = message.text
-        await txt.edit("Shhh! 🤫, **Gemini Pro** is at Work.\n Please Wait..\n\n#BETA")
+        await txt.edit("Shhh! 🤫, **Gemini Pro** is at Work.\nPlease Wait..\nDon't send any other query in the meantime\n\n#BETA")
         response = model.generate_content(text)
         await txt.edit('Formating the Result...')
         await sticker.delete()
@@ -673,7 +673,7 @@ async def handle_message(client, message):
         file_path = await message.download()
         caption = message.caption
         img = PIL.Image.open(file_path)
-        await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\n Please Wait..\n\n#BETA")
+        await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\nPlease Wait..\n\n#BETA")
         response = (
             model.generate_content([caption, img])
             if caption
