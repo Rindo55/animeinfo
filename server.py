@@ -614,57 +614,54 @@ async def handle_message(client, message):
         topicz_id=topz
         await tak.edit(assistant_responsez)
     elif topz == 1227:
-        try:
-            topic_id=topz
-            model_name = "gemini-pro-vision"
-            sticker_id = random.choice(stickers)
-            sticker = await app.send_sticker(
-                    chat_id=KAYO_ID,
-                    sticker=sticker_id,
-                    reply_to_message_id=topic_id
-                )
-            txt = await app.send_message(
+        topic_id=topz
+        model_name = "gemini-pro-vision"
+        sticker_id = random.choice(stickers)
+        sticker = await app.send_sticker(
                 chat_id=KAYO_ID,
-                text=f"Loading {model_name} ...",
+                sticker=sticker_id,
                 reply_to_message_id=topic_id
             )
-            model = genai.GenerativeModel(model_name)
-            await txt.edit("Downloading Image....")
-            file_path = await message.download()
-            caption = message.caption
-            img = PIL.Image.open(file_path)
-            await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\n Please Wait..\n\n#BETA")
-            response = (
-                model.generate_content([caption, img])
-                if caption
-                else model.generate_content(img)
+        txt = await app.send_message(
+            chat_id=KAYO_ID,
+            text=f"Loading {model_name} ...",
+            reply_to_message_id=topic_id
+        )
+        model = genai.GenerativeModel(model_name)
+        await txt.edit("Downloading Image....")
+        file_path = await message.download()
+        caption = message.caption
+        img = PIL.Image.open(file_path)
+        await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\n Please Wait..\n\n#BETA")
+        response = (
+            model.generate_content([caption, img])
+            if caption
+            else model.generate_content(img)
+        )
+        os.remove(file_path)
+        await txt.edit('Formating the Result...')
+        await sticker.delete()
+        await txt.delete()
+        if response.text:
+            print("response: ", response.text)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=response.text,
+                reply_to_message_id=topic_id
             )
-            os.remove(file_path)
-            await txt.edit('Formating the Result...')
-            await sticker.delete()
-            await txt.delete()
-            if response.text:
-                print("response: ", response.text)
-                await app.send_message(
-                    chat_id=KAYO_ID,
-                    text=response.text,
-                    reply_to_message_id=topic_id
-                )
-            elif response.parts: # handle multiline resps
-               for part in response.parts:
-                print("part: ", part)
-                await app.send_message(
-                    chat_id=KAYO_ID,
-                    text=part,
-                    reply_to_message_id=topic_id
-                )
-                time.sleep(2)
-            else:
-                await message.reply(
-                    "Couldn't figure out what's in the Image. Contact @pirate_user for help."
-                )
-        except Exception as e:
-            pass
+        elif response.parts: # handle multiline resps
+            for part in response.parts:
+            print("part: ", part)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=part,
+                reply_to_message_id=topic_id
+            )
+            time.sleep(2)
+        else:
+            await message.reply(
+                "Couldn't figure out what's in the Image. Contact @pirate_user for help."
+            )
     else:
         pass 
         
