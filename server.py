@@ -25,8 +25,8 @@ api_id = 3845818
 api_hash = "95937bcf6bc0938f263fc7ad96959c6d"
 bot_token = "6358924089:AAF9ruOPppIC-F3z2LwAym-SGqOFsf-cxuM"
 app = Client("anime_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
-client = TelegramClient('gemini', api_id, api_hash)
-client.start()
+clientz = TelegramClient('gemini', api_id, api_hash)
+clientz.start()
 def get_anime_info(anime_title):
     url = f"https://api.jikan.moe/v4/anime?q={anime_title}"
     response = requests.get(url)
@@ -715,7 +715,7 @@ async def anime_command_handler(client, message):
     info_string += f"Producers: {', '.join(producer['name'] for producer in anime_info['producers']['nodes'])}\n"
 
     # Send the anime info as a reply
-
+clientz.run_until_disconnected()
 app.start()
 print("Powered by @animxt")
 idle()
