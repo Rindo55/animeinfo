@@ -625,7 +625,7 @@ async def handle_message(client, message):
                 )
             txt = await app.send_message(
                 chat_id=KAYO_ID,
-                text=f"Loading {model_name} ...",
+                sticker=f"Loading {model_name} ...",
                 reply_to_message_id=topic_id
             )
             model = genai.GenerativeModel(model_name)
