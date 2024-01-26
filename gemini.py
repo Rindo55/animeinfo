@@ -7,7 +7,6 @@ async def handle_message(event):
     message = event.message
     topic_id = 1227  # Replace with your actual condition
     if topic_id == 1227:
-        topic_id = 1227
         model_name = "gemini-pro-vision"
         sticker_id = random.choice(stickers)
         
