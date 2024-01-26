@@ -614,8 +614,7 @@ async def handle_message(client, message):
         topicz_id=topz
         await tak.edit(assistant_responsez)
     elif topz == 1227 and message.text:
-                topic_id=topz
-        model_name = "gemini-pro-vision"
+        topic_id=topz
         sticker_id = random.choice(stickers)
         sticker = await app.send_sticker(
                 chat_id=KAYO_ID,
