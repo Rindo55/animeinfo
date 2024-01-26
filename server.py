@@ -633,7 +633,7 @@ async def handle_message(client, message):
             file_path = await message.download()
             caption = message.caption
             img = PIL.Image.open(file_path)
-            await txt.edit("Shhh 🤫, **Gemini Pro Vision** is at Work.\n Please Wait..\n\n#BETA")
+            await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\n Please Wait..\n\n#BETA")
             response = (
                 model.generate_content([caption, img])
                 if caption
@@ -664,8 +664,7 @@ async def handle_message(client, message):
                     "Couldn't figure out what's in the Image. Contact @pirate_user for help."
                 )
         except Exception as e:
-            await message.reply("Something Bad occured, Contact @pirate_user")
-            raise e
+            pass
     else:
         pass 
         
