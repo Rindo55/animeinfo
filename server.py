@@ -550,12 +550,12 @@ async def handle_private_message(client, message):
 GOOGLE_API_KEY = "AIzaSyA5X_AHEvif0EyIP8_Kx4jCg7lVEsArctQ"
 genai.configure(api_key=GOOGLE_API_KEY)
 @app.on_message(filters.chat(-1002111955074))
-async def handle_message(client, message):
+async def handle_messagex(client, message):
     user = message.from_user
     userid = user.id
     topz = message.reply_to_message_id
     KAYO_ID=-1002111955074
-    if topz == 2 and message.text:
+    if topz==2 and message.text:
         topic_id=topz
         sticker_id = random.choice(stickers)
         sticker = await app.send_sticker(
@@ -596,7 +596,7 @@ async def handle_message(client, message):
             await message.reply(
                 "Couldn't figure out what's in the Image. Contact @pirate_user for help."
             )
-    elif topz == 2 and message.caption:
+    elif topz==2 and message.caption:
         topic_id=topz
         model_name = "gemini-pro-vision"
         sticker_id = random.choice(stickers)
