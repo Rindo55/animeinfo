@@ -549,6 +549,104 @@ async def handle_private_message(client, message):
     await process_queue()
 GOOGLE_API_KEY = "AIzaSyA5X_AHEvif0EyIP8_Kx4jCg7lVEsArctQ"
 genai.configure(api_key=GOOGLE_API_KEY)
+@app.on_message(filters.chat(-1002111955074))
+async def handle_message(client, message):
+    user = message.from_user
+    userid = user.id
+    topz = message.reply_to_message_id
+    KAYO_ID=-1002111955074
+    if topz == 2 and message.text:
+        topic_id=topz
+        sticker_id = random.choice(stickers)
+        sticker = await app.send_sticker(
+                chat_id=KAYO_ID,
+                sticker=sticker_id,
+                reply_to_message_id=topic_id
+            )
+        txt = await app.send_message(
+            chat_id=KAYO_ID,
+            text=f"Loading gemini-pro ...",
+            reply_to_message_id=topic_id
+        )
+        model = genai.GenerativeModel('gemini-pro')
+        await txt.edit("⚡ Thinking....")
+        text = message.text
+        await txt.edit("Shhh! 🤫, **Gemini Pro** is at Work.\nPlease Wait..\nDon't send any other query in the meantime\n\n#BETA")
+        response = model.generate_content(text)
+        await txt.edit('Formating the Result...')
+        await sticker.delete()
+        await txt.delete()
+        if response.text:
+            print("response: ", response.text)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=response.text,
+                reply_to_message_id=topic_id
+            )
+        elif response.parts: # handle multiline resps
+            for part in response.parts:
+             print("part: ", part)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=part,
+                reply_to_message_id=topic_id
+            )
+            time.sleep(2)
+        else:
+            await message.reply(
+                "Couldn't figure out what's in the Image. Contact @pirate_user for help."
+            )
+    elif topz == 2 and message.caption:
+        topic_id=topz
+        model_name = "gemini-pro-vision"
+        sticker_id = random.choice(stickers)
+        sticker = await app.send_sticker(
+                chat_id=KAYO_ID,
+                sticker=sticker_id,
+                reply_to_message_id=topic_id
+            )
+        txt = await app.send_message(
+            chat_id=KAYO_ID,
+            text=f"Loading {model_name} ...",
+            reply_to_message_id=topic_id
+        )
+        model = genai.GenerativeModel(model_name)
+        await txt.edit("Downloading Image....")
+        file_path = await message.download()
+        caption = message.caption
+        img = PIL.Image.open(file_path)
+        await txt.edit("Shhh! 🤫, **Gemini Pro Vision** is at Work.\nPlease Wait..\n\n#BETA")
+        response = (
+            model.generate_content([caption, img])
+            if caption
+            else model.generate_content(img)
+        )
+        os.remove(file_path)
+        await txt.edit('Formating the Result...')
+        await sticker.delete()
+        await txt.delete()
+        if response.text:
+            print("response: ", response.text)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=response.text,
+                reply_to_message_id=topic_id
+            )
+        elif response.parts: # handle multiline resps
+            for part in response.parts:
+             print("part: ", part)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=part,
+                reply_to_message_id=topic_id
+            )
+            time.sleep(2)
+        else:
+            await message.reply(
+                "Couldn't figure out what's in the Image. Contact @pirate_user for help."
+            )
+    
+
 @app.on_message(filters.chat(-1001911678094))
 async def handle_message(client, message):
     user = message.from_user
