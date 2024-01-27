@@ -579,18 +579,21 @@ async def handle_messagex(client, message):
         if response.text:
             print("response: ", response.text)
             gemtext = response.text
-            while gemtext:
-                if len(gemtext) > 4000:
-                    part = gemtext[:4000]
-                else:
-                    part = text
+            if len(gemtext) > 4000:
+                for i in range(0, len(gemtext), 4000):
+                    part = gemtext[i:i+4000]
+                    await client.send_message(
+                        chat_id=KAYO_ID,
+                        text=part,
+                        reply_to_message_id=topic_id
+                    )
+            else:
                 await client.send_message(
                     chat_id=KAYO_ID,
-                    text=part,
+                    text=gemtext,
                     reply_to_message_id=topic_id
                 )
-                gemtexttext = text[4000:]
-    
+            
             
         elif response.parts: # handle multiline resps
             for part in response.parts:
