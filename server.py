@@ -645,6 +645,8 @@ async def handle_message(client, message):
             await message.reply(
                 "Couldn't figure out what's in the Image. Contact @pirate_user for help."
             )
+    else:
+        pass 
     
 
 @app.on_message(filters.chat(-1001911678094))
