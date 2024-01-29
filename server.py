@@ -1,6 +1,7 @@
 from pyrogram import Client, idle, filters, enums
 import time
 import re
+import codecs
 from SafoneAPI import SafoneAPI
 import os
 import asyncio
@@ -577,7 +578,12 @@ async def handle_messagex(client, message):
         await sticker.delete()
         await txt.delete()
         if response.parts: # handle multiline resps
-            for part in response.parts:
+            gemtext = response.parts
+            gemtext_encoded = codecs.encode(gemtext, 'utf-8')  
+            print("gem: ", gemtext_encoded),
+            gsa = gemtext_encoded.decode('utf-8')
+            print("gsa: ", gsa)
+            for part in gsa:
              print("part: ", part)
             await app.send_message(
                 chat_id=KAYO_ID,
