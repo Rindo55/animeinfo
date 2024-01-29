@@ -578,7 +578,7 @@ async def handle_messagex(client, message):
         await txt.edit('Formating the Result...')
         await sticker.delete()
         await txt.delete()
-        if result.candidates[index].content.parts: # handle multiline resps
+        if response.candidates[index].content.parts: # handle multiline resps
             for part in result.candidates[index].content.parts:
              print("part: ", part)
             await app.send_message(
