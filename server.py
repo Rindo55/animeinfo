@@ -585,8 +585,7 @@ async def handle_messagex(client, message):
                 reply_to_message_id=topic_id
             )
         elif response.text:
-            
-            
+                    
             print("response: ", response.text)
             gemtext = response.text
             if len(gemtext) > 4000:
@@ -605,15 +604,7 @@ async def handle_messagex(client, message):
                 )
             
             
-        elif response.parts: # handle multiline resps
-            for part in response.parts:
-             print("part: ", part)
-            await app.send_message(
-                chat_id=KAYO_ID,
-                text=part,
-                reply_to_message_id=topic_id
-            )
-            time.sleep(2)
+        
         else:
             await message.reply(
                 "Couldn't figure out what's in the Image. Contact @pirate_user for help."
