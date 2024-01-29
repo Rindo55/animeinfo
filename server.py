@@ -574,19 +574,20 @@ async def handle_messagex(client, message):
         text = message.text
         await txt.edit("Shhh! 🤫, **Gemini Pro** is at Work.\nPlease Wait..\nDon't send any other query in the meantime\n\n#BETA")
         response = model.generate_content(text)
+        print("response: ", response)
         await txt.edit('Formating the Result...')
         await sticker.delete()
         await txt.delete()
-        if response.content: # handle multiline resps
-            print("resp: ", response.content),
-            
+        if result.candidates[index].content.parts: # handle multiline resps
+            for part in result.candidates[index].content.parts:
+             print("part: ", part)
             await app.send_message(
                 chat_id=KAYO_ID,
-                text=response.content.text,
+                text=part,
                 reply_to_message_id=topic_id
-            )
-        elif response.text:
-                    
+            )        
+        if response.text:
+           result.candidates[index].content.parts         
             print("response: ", response.text)
             gemtext = response.text
             if len(gemtext) > 4000:
