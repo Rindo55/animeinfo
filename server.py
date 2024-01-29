@@ -576,14 +576,17 @@ async def handle_messagex(client, message):
         await txt.edit('Formating the Result...')
         await sticker.delete()
         await txt.delete()
-        if response.text:
+        if response.parts: # handle multiline resps
             for part in response.parts:
-                print("part: ", part)
+             print("part: ", part)
             await app.send_message(
                 chat_id=KAYO_ID,
                 text=part,
                 reply_to_message_id=topic_id
             )
+        elif response.text:
+            
+            
             print("response: ", response.text)
             gemtext = response.text
             if len(gemtext) > 4000:
