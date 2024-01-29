@@ -587,8 +587,7 @@ async def handle_messagex(client, message):
                 reply_to_message_id=topic_id
             )        
         elif response.text:
-                    
-           print("response: ", response.text)
+            print("response: ", response.text)
             gemtext = response.text
             if len(gemtext) > 4000:
                 for i in range(0, len(gemtext), 4000):
