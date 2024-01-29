@@ -577,6 +577,13 @@ async def handle_messagex(client, message):
         await sticker.delete()
         await txt.delete()
         if response.text:
+            for part in response.parts:
+                print("part: ", part)
+            await app.send_message(
+                chat_id=KAYO_ID,
+                text=part,
+                reply_to_message_id=topic_id
+            )
             print("response: ", response.text)
             gemtext = response.text
             if len(gemtext) > 4000:
