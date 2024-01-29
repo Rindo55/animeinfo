@@ -577,17 +577,12 @@ async def handle_messagex(client, message):
         await txt.edit('Formating the Result...')
         await sticker.delete()
         await txt.delete()
-        if response.parts: # handle multiline resps
-            gemtext = response.parts
-            gemtext_encoded = codecs.encode(gemtext, 'utf-8')  
-            print("gem: ", gemtext_encoded),
-            gsa = gemtext_encoded.decode('utf-8')
-            print("gsa: ", gsa)
-            for part in gsa:
-             print("part: ", part)
+        if response.content: # handle multiline resps
+            print("resp: ", response.content),
+            
             await app.send_message(
                 chat_id=KAYO_ID,
-                text=part,
+                text=response.content.text,
                 reply_to_message_id=topic_id
             )
         elif response.text:
